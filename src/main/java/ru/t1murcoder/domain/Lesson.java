@@ -25,10 +25,12 @@ public class Lesson {
     @Column(name = "duration")
     private long duration;
 
-    @Column(name = "teacher_id")
-    private long teacherId;
+    @ManyToOne(targetEntity = Teacher.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "teacher_id")
+    private Teacher teacher;
 
-    @Column(name = "schedule_id")
-    private long scheduleId;
+    @ManyToOne(targetEntity = Schedule.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "schedule_id")
+    private Schedule schedule;
 
 }

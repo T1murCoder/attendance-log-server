@@ -22,6 +22,9 @@ public class Student {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "login")
+    private String login;
+
     @Column(name = "password")
     private String password;
 

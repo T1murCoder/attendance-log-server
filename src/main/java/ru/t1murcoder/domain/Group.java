@@ -21,14 +21,14 @@ public class Group {
     @Column(name = "id")
     private long id;
 
-    @OneToOne(targetEntity = Student.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private Student teacher;
+    @ManyToOne(targetEntity = Teacher.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "teacher_id")
+    private Teacher teacher;
 
     @OneToOne(targetEntity = Schedule.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "schedule_id")
     private Schedule schedule;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "users")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
     private List<Student> studentList;
 }

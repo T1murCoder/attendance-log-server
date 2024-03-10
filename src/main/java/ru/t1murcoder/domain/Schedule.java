@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Entity
 @Builder
@@ -20,12 +22,12 @@ public class Schedule {
     @Column(name = "id")
     private long id;
 
-    @Column(name = "group_id")
-    @PrimaryKeyJoinColumn
-    private long groupId;
+    @OneToOne(targetEntity = Group.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "group_id")
+    private Group group;
 
     @Column(name = "lesson_id")
-    @OneToMany(mappedBy = "lesson")
-    private long[] lessonId;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "lesson")
+    private List<Lesson> lessonList;
 
 }
