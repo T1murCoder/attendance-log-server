@@ -3,9 +3,10 @@ spring:
 
   # Подключение к H2 бд через jdbc
   datasource:
-    url: jdbc:h2:mem:testdb
-    username: admin
-    password: admin
+    #url: jdbc:h2:mem:testdb
+    url: jdbc:postgresql://localhost:5432/attendance-log
+    username: root
+    password: root
 
   # Включение консоли
   h2:
@@ -21,7 +22,9 @@ spring:
 
     hibernate:
       #ddl-auto: none
+      dialect: org.hibernate.dialect.PostgreSQLDialect
       ddl-auto: create-drop
+      hbm2ddl.auto: create
 
     # Показываем запросы
     show-sql: true

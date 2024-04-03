@@ -30,10 +30,10 @@ public class Teacher {
     @Column(name = "password")
     private String password;
 
-    // Пока сделал Один Препод К Одной Группе, потом поменяю по надобности
-    @OneToMany(mappedBy = "group", fetch = FetchType.LAZY)
+    // Один Препод Ко многим группам
+    @OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY)
     private List<Group> groupList;
 
-    @OneToMany(mappedBy = "lesson", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY)
     private List<Lesson> lessonList;
 }

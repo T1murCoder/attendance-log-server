@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Entity
 @Builder
@@ -31,4 +33,8 @@ public class Student {
     @ManyToOne(targetEntity = Group.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id")
     private Group group;
+
+    @Column(name = "event_id")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
+    private List<StudentEvent> eventList;
 }

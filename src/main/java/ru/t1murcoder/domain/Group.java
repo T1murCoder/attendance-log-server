@@ -13,7 +13,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "group")
+@Table(name = "groups")
 public class Group {
 
     @Id
@@ -29,6 +29,6 @@ public class Group {
     @JoinColumn(name = "schedule_id")
     private Schedule schedule;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "group")
     private List<Student> studentList;
 }

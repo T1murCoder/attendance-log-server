@@ -1,33 +1,28 @@
 package ru.t1murcoder.domain;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "schedule")
-public class Schedule {
+@Table(name = "qr_code")
+public class QrCode {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private long id;
 
-    @OneToOne(targetEntity = Group.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "group_id")
-    private Group group;
+    @Column(name = "value")
+    private int value;
 
-    @Column(name = "lesson_id")
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "schedule")
-    private List<Lesson> lessonList;
+    @Column(name = "valid_until")
+    private int validUntil;
 
 }
