@@ -41,4 +41,8 @@ public class StudentController {
         service.deleteById(id);
     }
 
+    @PutMapping("/student/{student_id}/lesson/{lesson_id}")
+    public Student addAttendance(@PathVariable long student_id, @PathVariable long lesson_id) {
+        return service.addAttendance(student_id, lesson_id);
+    }
 }

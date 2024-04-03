@@ -6,8 +6,9 @@ import ru.t1murcoder.domain.Lesson;
 import ru.t1murcoder.domain.Student;
 
 import java.util.List;
+import java.util.Set;
 
 @Repository
-public interface StudentRepository extends JpaRepository<Student, Long> {
-    List<Student> findBylessonsAttendSetContaining(Lesson lesson);
+public interface LessonRepository extends JpaRepository<Lesson, Long> {
+    Set<Lesson> findByAttendedStudentSetContaining(Student student);
 }
