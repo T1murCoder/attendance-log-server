@@ -1,10 +1,7 @@
 package ru.t1murcoder.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
@@ -13,6 +10,8 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(exclude = {"studentList", "schedule"})
+@ToString(exclude = {"studentList", "schedule"})
 @Table(name = "groups")
 public class Group {
 

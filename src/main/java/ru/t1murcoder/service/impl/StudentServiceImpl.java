@@ -63,6 +63,7 @@ public class StudentServiceImpl implements StudentService {
         student.setLessonsAttendSet(lessonSet);
         return studentRepository.save(student);
     }
+    // TODO: Сделать DTO, чтобы исключить возможность рекурсивного вызова toString(), equals(), hashCode()
 
     //    @ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "There is no such student")
 //    private class NoSuchStudentFound extends Exception {

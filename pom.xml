@@ -55,6 +55,11 @@
             <artifactId>h2</artifactId>
         </dependency>
 
+<!--        <dependency>-->
+<!--            <groupId>org.liquibase</groupId>-->
+<!--            <artifactId>liquibase-core</artifactId>-->
+<!--        </dependency>-->
+
         <!-- Spring Data — дополнительный удобный механизм для взаимодействия с сущностями базы данных,
              организации их в репозитории, извлечение данных, изменение -->
         <!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-jpa -->
@@ -68,6 +73,14 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
         </dependency>
+
+        <!-- Зависимость для swagger -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.3.0</version>
+        </dependency>
+
 
     </dependencies>
 

@@ -16,8 +16,8 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "student")
-@ToString
-@EqualsAndHashCode
+@ToString(exclude = {"group", "eventList", "lessonsAttendSet"})
+@EqualsAndHashCode(exclude = {"group", "eventList", "lessonsAttendSet"})
 public class Student {
 
     @Id

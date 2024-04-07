@@ -16,8 +16,8 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "lesson")
-@ToString
-@EqualsAndHashCode
+@ToString(exclude = {"teacher", "schedule", "attendedStudentSet"})
+@EqualsAndHashCode(exclude = {"teacher", "schedule", "attendedStudentSet"})
 public class Lesson {
 
     @Id
@@ -41,7 +41,7 @@ public class Lesson {
 
 
     @JsonIgnoreProperties("lessonsAttendSet")
-    @ManyToMany(mappedBy = "lessonsAttendSet", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "lessonsAttendSet", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 //    @JoinTable(name = "student_lesson_table",
 //            joinColumns = @JoinColumn(name = "lesson_id", referencedColumnName = "id"),
 //            inverseJoinColumns = @JoinColumn(name = "student_id", referencedColumnName = "id"))

@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+// TODO: добавить EqualsAndHashCode и ToString
 @Table(name = "qr_code")
 public class QrCode {
 

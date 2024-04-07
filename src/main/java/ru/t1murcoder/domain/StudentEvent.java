@@ -1,16 +1,15 @@
 package ru.t1murcoder.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(exclude = {"student"})
+@ToString(exclude = {"student"})
 @Table(name = "student_event")
 public class StudentEvent {
 
