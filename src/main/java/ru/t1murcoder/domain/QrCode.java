@@ -6,12 +6,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+// TODO: добавить EqualsAndHashCode и ToString
 @Data
 @Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-// TODO: добавить EqualsAndHashCode и ToString
 @Table(name = "qr_code")
 public class QrCode {
 
@@ -20,7 +20,7 @@ public class QrCode {
     @Column(name = "id")
     private long id;
 
-    @Column(name = "value")
+    @Column(name = "qr_value")
     private int value;
 
     @Column(name = "valid_until")

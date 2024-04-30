@@ -41,7 +41,7 @@ public class Lesson {
 
 
     @JsonIgnoreProperties("lessonsAttendSet")
-    @ManyToMany(mappedBy = "lessonsAttendSet", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "lessonsAttendSet", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 //    @JoinTable(name = "student_lesson_table",
 //            joinColumns = @JoinColumn(name = "lesson_id", referencedColumnName = "id"),
 //            inverseJoinColumns = @JoinColumn(name = "student_id", referencedColumnName = "id"))

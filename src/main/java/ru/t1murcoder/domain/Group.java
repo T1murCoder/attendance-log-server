@@ -28,6 +28,6 @@ public class Group {
     @JoinColumn(name = "schedule_id")
     private Schedule schedule;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "group")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "group", cascade = CascadeType.PERSIST)
     private List<Student> studentList;
 }

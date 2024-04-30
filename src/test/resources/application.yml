@@ -1,0 +1,37 @@
+# Конфигурационный файл
+apiPrefix: "/api"
+
+spring:
+
+  # Подключение к H2 бд через jdbc
+  datasource:
+    #url: jdbc:h2:mem:testdb
+    url: jdbc:postgresql://localhost:5432/attendance-log
+    username: root
+    password: root
+
+  # Включение консоли
+  h2:
+    console:
+      enabled: false
+      #enabled: true
+
+  jpa:
+
+    #Автогенерация схемы hibernate
+    #generate-ddl: false
+    generate-ddl: true
+
+    hibernate:
+      #ddl-auto: none
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+      ddl-auto: create-drop
+      hbm2ddl.auto: create
+
+    # Показываем запросы
+    show-sql: true
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method

@@ -81,6 +81,19 @@
             <version>2.3.0</version>
         </dependency>
 
+        <!-- Spring Test это одна из библиотек, входящих в Spring Framework.
+             Четыре главных задачи, которые решает библиотека это:
+
+                1. Управлять Spring IoC контейнерами и их кэшированием между тестами
+                2. Предоставить внедрение зависимостей для тестовых классов
+                3. Предоставить управление транзакциями, подходящее для интеграционных тестов
+                4. Предоставить набор базовых классов чтобы помочь разработчику писать интеграционные тесты -->
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
 
     </dependencies>
 

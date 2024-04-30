@@ -43,7 +43,7 @@ public class Student {
     private List<StudentEvent> eventList;
 
     @JsonIgnoreProperties("attendedStudentSet")
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(name = "student_lesson_table",
             joinColumns = @JoinColumn(name = "student_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "lesson_id", referencedColumnName = "id"))
