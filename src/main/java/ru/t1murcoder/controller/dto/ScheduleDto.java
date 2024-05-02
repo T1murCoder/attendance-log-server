@@ -1,4 +1,4 @@
 package ru.t1murcoder.controller.dto;
 
-public class ScheduleDTO {
+public class ScheduleDto {
 }

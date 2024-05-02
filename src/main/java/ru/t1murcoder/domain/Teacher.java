@@ -21,7 +21,7 @@ public class Teacher {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "login")
+    @Column(name = "login", unique = true)
     private String login;
 
     @Column(name = "name")
@@ -42,6 +42,6 @@ public class Teacher {
     @Column(name = "photo_url")
     private String photoUrl;
 
-    @OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<Group> groupList;
 }

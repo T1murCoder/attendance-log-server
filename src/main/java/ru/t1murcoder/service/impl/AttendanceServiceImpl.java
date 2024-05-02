@@ -1,4 +1,4 @@
 package ru.t1murcoder.service.impl;
 
-public class StudentServiceImpl {
+public class AttendanceServiceImpl {
 }
