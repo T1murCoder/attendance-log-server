@@ -63,8 +63,8 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public Group getByTeacher(Teacher teacher) {
-        Optional<Group> group = groupRepository.findByTeacher(teacher);
+    public List<Group> getByTeacher(Teacher teacher) {
+        Optional<List<Group>> group = groupRepository.findByTeacher(teacher);
 
         if (group.isEmpty())
             throw new RuntimeException("Group not found");

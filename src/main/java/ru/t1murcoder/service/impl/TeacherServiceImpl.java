@@ -66,7 +66,7 @@ public class TeacherServiceImpl implements TeacherService {
         if (teacher.getGithubUrl() != null) teacher1.setGithubUrl(teacher.getGithubUrl());
         if (teacher.getPhotoUrl() != null) teacher1.setPhotoUrl(teacher.getPhotoUrl());
 
-        return teacherRepository.save(teacher);
+        return teacherRepository.save(teacher1);
     }
 
     @Override

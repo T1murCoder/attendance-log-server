@@ -17,7 +17,7 @@ public interface GroupService {
 
     Group getByName(String name);
 
-    Group getByTeacher(Teacher teacher);
+    List<Group> getByTeacher(Teacher teacher);
 
     Group addStudent(long id, Student student);
     Group addLesson(long id, Lesson lesson);
