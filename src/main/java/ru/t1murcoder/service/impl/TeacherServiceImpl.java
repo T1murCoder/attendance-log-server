@@ -1,76 +1,129 @@
 package ru.t1murcoder.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import ru.t1murcoder.controller.dto.UserProfileDto;
+import ru.t1murcoder.controller.dto.UserRegisterDto;
+import ru.t1murcoder.domain.Authority;
 import ru.t1murcoder.domain.Group;
+import ru.t1murcoder.domain.Student;
 import ru.t1murcoder.domain.Teacher;
+import ru.t1murcoder.exception.UserNotFoundException;
+import ru.t1murcoder.mapper.UserMapper;
+import ru.t1murcoder.repository.AuthorityRepository;
 import ru.t1murcoder.repository.GroupRepository;
+import ru.t1murcoder.repository.StudentRepository;
 import ru.t1murcoder.repository.TeacherRepository;
 import ru.t1murcoder.service.TeacherService;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class TeacherServiceImpl implements TeacherService {
 
     private final TeacherRepository teacherRepository;
+    private final StudentRepository studentRepository;
+    private final AuthorityRepository authorityRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
-    public Teacher add(Teacher teacher) {
+    public UserProfileDto add(UserRegisterDto userRegisterDto) {
 
-        if (teacherRepository.findByLogin(teacher.getLogin()).isPresent())
+        if (teacherRepository.findByUsername(userRegisterDto.getUsername()).isPresent())
             throw new RuntimeException("Teacher is already exists");
 
-        return teacherRepository.save(teacher);
+        if (studentRepository.findByUsername(userRegisterDto.getUsername()).isPresent())
+            throw new RuntimeException("This username is already occupied");
+
+        Optional<Authority> optionalAuthority = authorityRepository.findByAuthority("ROLE_TEACHER");
+        if (optionalAuthority.isEmpty()) throw new RuntimeException("Authority not found");
+
+        Teacher teacher = UserMapper.toTeacherEntity(userRegisterDto);
+        teacher.setPassword(passwordEncoder.encode(userRegisterDto.getPassword()));
+        Set<Authority> authoritySet = new HashSet<>();
+        authoritySet.add(optionalAuthority.get());
+        teacher.setAuthorities(authoritySet);
+
+        Teacher save = teacherRepository.save(teacher);
+
+        return UserMapper.toUserProfileDto(save);
     }
 
     @Override
-    public List<Teacher> getAll() {
-        return teacherRepository.findAll();
+    public List<UserProfileDto> getAll() {
+        List<Teacher> teacherList = teacherRepository.findAll();
+        return teacherList.stream()
+                .map(UserMapper::toUserProfileDto)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Teacher getById(long id) {
+    public UserProfileDto getById(long id) {
         Optional<Teacher> teacher = teacherRepository.findById(id);
 
         if (teacher.isEmpty())
-            throw new RuntimeException("Teacher not found");
+            throw new UserNotFoundException("Teacher not found");
 
-        return teacher.get();
+        return UserMapper.toUserProfileDto(teacher.get());
     }
 
     @Override
-    public Teacher getByLogin(String login) {
-        Optional<Teacher> teacher = teacherRepository.findByLogin(login);
+    public UserProfileDto getByUsername(String username) {
+        Optional<Teacher> teacher = teacherRepository.findByUsername(username);
 
         if (teacher.isEmpty())
-            throw new RuntimeException("Teacher not found");
+            throw new UserNotFoundException("Teacher not found");
 
-        return teacher.get();
+        return UserMapper.toUserProfileDto(teacher.get());
     }
 
     @Override
-    public Teacher update(long id, Teacher teacher) {
+    public UserProfileDto checkUsernameIsPresent(String username) {
+        Optional<Teacher> teacherOptional = teacherRepository.findByUsername(username);
+        Optional<Student> studentOptional = studentRepository.findByUsername(username);
+
+        if (teacherOptional.isEmpty())
+            throw new UserNotFoundException("User with name " + username + " not found");
+//        if (studentOptional.isEmpty())
+//            throw new UserNotFoundException("User with name " + username + " not found");
+
+        //FIXME СДЕЛАТЬ ПРОВЕРКУ НА ТО ЧТО ИМЯ НЕ ДОЛЖНО СУЩЕСТВОВАТЬ В ДВУХ ТАБЛИЦАХ
+
+        return UserMapper.toUserProfileDto(teacherOptional.get());
+    }
+
+    @Override
+    public UserProfileDto update(long id, UserProfileDto userProfileDto) {
         Optional<Teacher> teacherOptional = teacherRepository.findById(id);
 
         if (teacherOptional.isEmpty())
-            throw new RuntimeException("Teacher with ID " + id + " not found");
+            throw new UserNotFoundException("Teacher with ID " + id + " not found");
 
-        Teacher teacher1 = teacherOptional.get();
-        if (teacher.getName() != null) teacher1.setName(teacher.getName());
-        if (teacher.getSurname() != null) teacher1.setSurname(teacher.getSurname());
-        if (teacher.getPassword() != null) teacher1.setPassword(teacher.getPassword());
-        if (teacher.getTelegramUrl() != null) teacher1.setTelegramUrl(teacher.getTelegramUrl());
-        if (teacher.getGithubUrl() != null) teacher1.setGithubUrl(teacher.getGithubUrl());
-        if (teacher.getPhotoUrl() != null) teacher1.setPhotoUrl(teacher.getPhotoUrl());
+        Teacher teacher = teacherOptional.get();
+        if (userProfileDto.getName() != null) teacher.setName(userProfileDto.getName());
+        if (userProfileDto.getSurname() != null) teacher.setSurname(userProfileDto.getSurname());
+        if (userProfileDto.getTelegramUrl() != null) teacher.setTelegramUrl(userProfileDto.getTelegramUrl());
+        if (userProfileDto.getGithubUrl() != null) teacher.setGithubUrl(userProfileDto.getGithubUrl());
+        if (userProfileDto.getPhotoUrl() != null) teacher.setPhotoUrl(userProfileDto.getPhotoUrl());
 
-        return teacherRepository.save(teacher1);
+        return UserMapper.toUserProfileDto(teacherRepository.save(teacher));
     }
 
     @Override
     public void deleteById(long id) {
+        Teacher teacher = teacherRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("Teacher with ID " + id + " not found"));
+
+//        Optional<Teacher> teacherOptional = teacherRepository.findById(id);
+//        if (teacherOptional.isEmpty())
+//            throw new RuntimeException("Teacher with ID " + id + " not found");
+
         teacherRepository.deleteById(id);
     }
 }

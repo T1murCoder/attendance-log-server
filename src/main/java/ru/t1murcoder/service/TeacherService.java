@@ -1,19 +1,22 @@
 package ru.t1murcoder.service;
 
+import ru.t1murcoder.controller.dto.UserProfileDto;
+import ru.t1murcoder.controller.dto.UserRegisterDto;
 import ru.t1murcoder.domain.Teacher;
 
 import java.util.List;
 
 public interface TeacherService {
-    Teacher add(Teacher teacher);
+    UserProfileDto add(UserRegisterDto teacher);
 
-    List<Teacher> getAll();
+    List<UserProfileDto> getAll();
 
-    Teacher getById(long id);
+    UserProfileDto getById(long id);
 
-    Teacher getByLogin(String login);
+    UserProfileDto getByUsername(String username);
+    UserProfileDto checkUsernameIsPresent(String username);
 
-    Teacher update(long id, Teacher teacher);
+    UserProfileDto update(long id, UserProfileDto userProfileDto);
 
     void deleteById(long id);
 }
