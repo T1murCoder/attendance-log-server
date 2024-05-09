@@ -5,10 +5,13 @@ spring:
 
   # Подключение к H2 бд через jdbc
   datasource:
-    #url: jdbc:h2:mem:testdb
-    url: jdbc:postgresql://localhost:5432/attendance-log
+    url: jdbc:h2:mem:testdb
+#    url: jdbc:postgresql://localhost:5432/attendance-log
     username: root
     password: root
+
+  server:
+    port: 8082
 
   # Включение консоли
   h2:

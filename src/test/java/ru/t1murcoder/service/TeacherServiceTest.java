@@ -88,7 +88,7 @@ public class TeacherServiceTest {
 
         Teacher newTeacher1 = teacherService.getById(1);
 
-        System.out.println(newTeacher1);
+        System.out.println(newTeacher1.getGroupList());
     }
 
 }

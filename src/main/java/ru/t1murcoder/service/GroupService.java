@@ -19,9 +19,6 @@ public interface GroupService {
 
     List<Group> getByTeacher(Teacher teacher);
 
-    Group addStudent(long id, Student student);
-    Group addLesson(long id, Lesson lesson);
-
     Group update(long id, Group group);
 
     void deleteById(long id);

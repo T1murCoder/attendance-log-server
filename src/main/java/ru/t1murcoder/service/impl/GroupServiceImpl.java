@@ -64,27 +64,12 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public List<Group> getByTeacher(Teacher teacher) {
-        Optional<List<Group>> group = groupRepository.findByTeacher(teacher);
+        List<Group> group = groupRepository.findByTeacher(teacher);
 
         if (group.isEmpty())
             throw new RuntimeException("Group not found");
 
-        return group.get();
-    }
-
-    @Override
-    public Group addStudent(long id, Student student) {
-
-        Group group = getById(id);
-
-        // TODO: ЗДЕСЬ СДЕЛАТЬ МЕТОД ДОБАВЛЕНИЯ СТУДЕНТА В ГРУППУ
-
-        return null;
-    }
-
-    @Override
-    public Group addLesson(long id, Lesson lesson) {
-        return null;
+        return group;
     }
 
     @Override

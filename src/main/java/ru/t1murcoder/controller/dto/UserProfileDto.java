@@ -4,16 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.t1murcoder.domain.Teacher;
-
-import java.util.List;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class GroupDto {
+public class UserProfileDto {
     private Long id;
     private String name;
-    private List<StudentDto> studentList;
+    private String surname;
+    private String telegramUrl;
+    private String githubUrl;
+    private String photoUrl;
 }

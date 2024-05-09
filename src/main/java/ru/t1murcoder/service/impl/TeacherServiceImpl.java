@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.t1murcoder.domain.Group;
 import ru.t1murcoder.domain.Teacher;
 import ru.t1murcoder.repository.GroupRepository;
+import ru.t1murcoder.repository.StudentRepository;
 import ru.t1murcoder.repository.TeacherRepository;
 import ru.t1murcoder.service.TeacherService;
 
@@ -16,12 +17,16 @@ import java.util.Optional;
 public class TeacherServiceImpl implements TeacherService {
 
     private final TeacherRepository teacherRepository;
+    private final StudentRepository studentRepository;
 
     @Override
     public Teacher add(Teacher teacher) {
 
         if (teacherRepository.findByLogin(teacher.getLogin()).isPresent())
             throw new RuntimeException("Teacher is already exists");
+
+        if (studentRepository.findByLogin(teacher.getLogin()).isPresent())
+            throw new RuntimeException("Login is already occupied");
 
         return teacherRepository.save(teacher);
     }
