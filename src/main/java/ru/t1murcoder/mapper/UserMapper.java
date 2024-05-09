@@ -15,6 +15,7 @@ public class UserMapper {
                 .id(student.getId())
                 .name(student.getName())
                 .surname(student.getSurname())
+                .username(student.getUsername())
                 .telegramUrl(student.getTelegramUrl())
                 .githubUrl(student.getGithubUrl())
                 .photoUrl(student.getPhotoUrl())
@@ -27,6 +28,7 @@ public class UserMapper {
                 .id(teacher.getId())
                 .name(teacher.getName())
                 .surname(teacher.getSurname())
+                .username(teacher.getUsername())
                 .telegramUrl(teacher.getTelegramUrl())
                 .githubUrl(teacher.getGithubUrl())
                 .photoUrl(teacher.getPhotoUrl())
@@ -38,7 +40,7 @@ public class UserMapper {
         Student student = Student.builder()
                 .name(userRegisterDto.getName())
                 .surname(userRegisterDto.getSurname())
-                .login(userRegisterDto.getLogin())
+                .username(userRegisterDto.getUsername())
                 .password(userRegisterDto.getPassword())
                 .build();
 
@@ -53,6 +55,7 @@ public class UserMapper {
                 .id(userProfileDto.getId())
                 .name(userProfileDto.getName())
                 .surname(userProfileDto.getSurname())
+                .username(userProfileDto.getUsername())
                 .telegramUrl(userProfileDto.getTelegramUrl())
                 .githubUrl(userProfileDto.getGithubUrl())
                 .photoUrl(userProfileDto.getPhotoUrl())
@@ -64,7 +67,7 @@ public class UserMapper {
         Teacher teacher = Teacher.builder()
                 .name(userRegisterDto.getName())
                 .surname(userRegisterDto.getSurname())
-                .login(userRegisterDto.getLogin())
+                .username(userRegisterDto.getUsername())
                 .password(userRegisterDto.getPassword())
                 .build();
 
@@ -79,6 +82,7 @@ public class UserMapper {
                 .id(userProfileDto.getId())
                 .name(userProfileDto.getName())
                 .surname(userProfileDto.getSurname())
+                .username(userProfileDto.getUsername())
                 .telegramUrl(userProfileDto.getTelegramUrl())
                 .githubUrl(userProfileDto.getGithubUrl())
                 .photoUrl(userProfileDto.getPhotoUrl())
@@ -91,7 +95,7 @@ public class UserMapper {
                 .id(student.getId())
                 .name(student.getName())
                 .surname(student.getSurname())
-                .login(student.getLogin())
+                .username(student.getUsername())
                 .password(student.getPassword())
                 .build();
     }
@@ -102,7 +106,7 @@ public class UserMapper {
                 .id(teacher.getId())
                 .name(teacher.getName())
                 .surname(teacher.getSurname())
-                .login(teacher.getLogin())
+                .username(teacher.getUsername())
                 .password(teacher.getPassword())
                 .build();
     }

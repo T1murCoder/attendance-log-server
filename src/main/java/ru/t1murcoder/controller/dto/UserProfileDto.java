@@ -13,6 +13,7 @@ public class UserProfileDto {
     private Long id;
     private String name;
     private String surname;
+    private String username;
     private String telegramUrl;
     private String githubUrl;
     private String photoUrl;

@@ -13,6 +13,6 @@ public class UserRegisterDto {
     private Long id;
     private String name;
     private String surname;
-    private String login;
+    private String username;
     private String password;
 }

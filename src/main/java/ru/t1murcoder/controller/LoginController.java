@@ -1,5 +1,7 @@
 package ru.t1murcoder.controller;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,14 +12,24 @@ import ru.t1murcoder.controller.dto.UserRegisterDto;
 @RestController
 public class LoginController {
 
-    @PostMapping("/teacher/register")
-    public void register(@RequestBody UserRegisterDto userData) {}
-
-    @PostMapping("/teacher/login")
-    public UserProfileDto login(@RequestBody LoginDto userData) {
-        //TODO: Добавить спринг секьюрити
-        //TODO: перейти на spring 2.5.5
-        return null;
+    @GetMapping("/hello")
+    public String hello() {
+        return "Hello!!!";
     }
+
+    @GetMapping("/hello_auth")
+    public String helloAuthorized() {
+        return "You are Authorized!";
+    }
+
+//    @PostMapping("/teacher/register")
+//    public void register(@RequestBody UserRegisterDto userData) {}
+//
+//    @PostMapping("/teacher/login")
+//    public UserProfileDto login(@RequestBody LoginDto userData) {
+//        //TODO: Добавить спринг секьюрити
+//        //TODO: перейти на spring 2.5.5
+//        return null;
+//    }
 
 }

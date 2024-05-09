@@ -41,7 +41,7 @@ public class StudentServiceTest {
     void addNewStudent() {
         Student student = Student.builder()
                 .name("Timur")
-                .login("bebra")
+                .username("bebra")
                 .surname("Zar")
                 .build();
 
@@ -56,7 +56,7 @@ public class StudentServiceTest {
         Teacher teacher = Teacher.builder()
                 .id(1L)
                 .name("Alexander")
-                .login("nepret")
+                .username("nepret")
                 .surname("Nepretimov")
                 .password("123")
                 .build();
@@ -72,14 +72,14 @@ public class StudentServiceTest {
 
         Student studentTimur = Student.builder()
                 .name("Timur")
-                .login("bebra")
+                .username("bebra")
                 .surname("Zar")
                 .group(group)
                 .build();
 
         Student studentArtem = Student.builder()
                 .name("Artem")
-                .login("zxcxzc")
+                .username("zxcxzc")
                 .surname("Dob")
                 .group(group)
                 .build();

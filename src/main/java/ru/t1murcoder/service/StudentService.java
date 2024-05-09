@@ -13,7 +13,7 @@ public interface StudentService {
     Student getById(long id);
 
     Student update(Student student);
-    Student getByLogin(String login);
+    Student getByUsername(String username);
     List<Student> getByGroup(Group group);
 
     void deleteById(long id);

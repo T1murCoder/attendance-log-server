@@ -9,10 +9,9 @@ spring:
     #url: jdbc:postgresql://localhost:5432/attendance-log
 #    username: root
 #    password: root
-
+# TODO: Разобраться почему H2 стартует не том порту
   server:
-    port:
-      8082
+    port: 8080
 
   # Включение консоли
   h2:
@@ -35,7 +34,9 @@ spring:
     # Показываем запросы
     show-sql: true
 
+    defer-datasource-initialization: true
+
 springdoc:
   swagger-ui:
-    path: /swagger-ui.html
+    path: /swagger-ui
     operationsSorter: method

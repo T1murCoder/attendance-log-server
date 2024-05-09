@@ -23,10 +23,10 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Student add(Student student) {
 
-        if (studentRepository.findByLogin(student.getLogin()).isPresent()) {
+        if (studentRepository.findByUsername(student.getUsername()).isPresent()) {
             throw new RuntimeException("Student is already exists");
         }
-        if (teacherRepository.findByLogin(student.getLogin()).isPresent())
+        if (teacherRepository.findByUsername(student.getUsername()).isPresent())
             throw new RuntimeException("Login is already occupied");
 
         return studentRepository.save(student);
@@ -54,7 +54,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Student getByLogin(String login) {
+    public Student getByUsername(String username) {
         return null;
     }
 

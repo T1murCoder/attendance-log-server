@@ -25,8 +25,9 @@ public class Student {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "login", unique = true)
-    private String login;
+//    @Column(name = "username", unique = true)
+    @Column(name = "username")
+    private String username;
 
     @Column(name = "name")
     private String name;
