@@ -15,5 +15,5 @@ public interface StudentService {
 
     void deleteById(long id);
 
-    Student addAttendance(long student_id, long lesson_id);
+    Student addAttendance(long studentId, long lessonId);
 }
