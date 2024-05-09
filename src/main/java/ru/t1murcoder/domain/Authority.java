@@ -5,22 +5,22 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.lang.model.element.Name;
+import org.springframework.security.core.GrantedAuthority;
 
 @Data
 @Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "homework")
-public class Homework {
+@Table(name = "authority")
+public class Authority implements GrantedAuthority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private long id;
+    private Long id;
 
-    @Column(name = "description")
-    private String description;
+    @Column(name = "authority")
+    private String authority;
+
 }

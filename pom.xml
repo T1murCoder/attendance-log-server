@@ -74,12 +74,19 @@
             <artifactId>postgresql</artifactId>
         </dependency>
 
-        <!-- Зависимость для swagger -->
+        <!-- Зависимость для swagger spring boot 3.0.0+ -->
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>2.3.0</version>
         </dependency>
+        <!-- Зависимость для swagger spring boot 2.0.0+ -->
+<!--        <dependency>-->
+<!--            <groupId>io.springfox</groupId>-->
+<!--            <artifactId>springfox-boot-starter</artifactId>-->
+<!--            <version>3.0.0</version>-->
+<!--        </dependency>-->
+
 
         <!-- Spring Test это одна из библиотек, входящих в Spring Framework.
              Четыре главных задачи, которые решает библиотека это:
@@ -94,6 +101,18 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security -->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-security</artifactId>-->
+<!--        </dependency>-->
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
 
     </dependencies>
 

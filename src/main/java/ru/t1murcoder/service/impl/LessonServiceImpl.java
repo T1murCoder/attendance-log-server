@@ -1,30 +1,38 @@
 package ru.t1murcoder.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.t1murcoder.domain.Lesson;
-import ru.t1murcoder.domain.Student;
+import ru.t1murcoder.repository.GroupRepository;
 import ru.t1murcoder.repository.LessonRepository;
-import ru.t1murcoder.repository.StudentRepository;
 import ru.t1murcoder.service.LessonService;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class LessonServiceImpl implements LessonService {
-    private final LessonRepository lessonRepository;
-    private final StudentRepository studentRepository;
 
-    @Autowired
-    public LessonServiceImpl(LessonRepository lessonRepository, StudentRepository studentRepository) {
-        this.lessonRepository = lessonRepository;
-        this.studentRepository = studentRepository;
-    }
+    private final LessonRepository lessonRepository;
+    private final GroupRepository groupRepository;
 
     @Override
     public Lesson add(Lesson lesson) {
+
+        if (lesson.getTheme() != null)
+            throw new RuntimeException("Lesson must have theme");
+        if (lesson.getTimeStart() != null)
+            throw new RuntimeException("Lesson must have start time");
+        if (lesson.getTimeEnd() != null)
+            throw new RuntimeException("Lesson must have end time");
+        if (lesson.getDate() != null)
+            throw new RuntimeException("Lesson must have date");
+        if (lesson.getGroup() != null)
+            throw new RuntimeException("Lesson must have group");
+        if (groupRepository.findById(lesson.getGroup().getId()).isEmpty())
+            throw new RuntimeException("Group does not exist");
+
         return lessonRepository.save(lesson);
     }
 
@@ -35,22 +43,21 @@ public class LessonServiceImpl implements LessonService {
 
     @Override
     public Lesson getById(long id) {
-        Lesson lesson = lessonRepository.findById(id).orElseThrow();
-        Set<Student> students = new HashSet<>(studentRepository.findBylessonsAttendSetContaining(lesson));
-        lesson.setAttendedStudentSet(students);
 
-        return lesson;
+        Optional<Lesson> lessonOptional = lessonRepository.findById(id);
+
+        if (lessonOptional.isEmpty()) throw new RuntimeException("Lesson not found");
+
+        return lessonOptional.get();
     }
 
     @Override
     public Lesson update(Lesson lesson) {
-        // TODO: Сделать чтобы нельзя было апдейдить не существующий урок
-        return lessonRepository.save(lesson);
+        return null;
     }
 
     @Override
     public void deleteById(long id) {
         lessonRepository.deleteById(id);
     }
-
 }

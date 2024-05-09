@@ -10,24 +10,26 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(exclude = {"studentList", "schedule"})
-@ToString(exclude = {"studentList", "schedule"})
+//@EqualsAndHashCode(exclude = {"studentList", "schedule"})
+//@ToString(exclude = {"studentList", "schedule"})
 @Table(name = "groups")
 public class Group {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private long id;
+    private Long id;
+
+    @Column(name = "name", unique = true)
+    private String name;
+
+    @OneToMany(mappedBy = "group", fetch = FetchType.LAZY)
+    private List<Lesson> lessonList;
 
     @ManyToOne(targetEntity = Teacher.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "teacher_id")
     private Teacher teacher;
 
-    @OneToOne(targetEntity = Schedule.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "schedule_id")
-    private Schedule schedule;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "group", cascade = CascadeType.PERSIST)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "group")
     private List<Student> studentList;
 }

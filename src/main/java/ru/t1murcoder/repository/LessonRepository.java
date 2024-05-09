@@ -10,5 +10,4 @@ import java.util.Set;
 
 @Repository
 public interface LessonRepository extends JpaRepository<Lesson, Long> {
-    Set<Lesson> findByAttendedStudentSetContaining(Student student);
 }

@@ -1,31 +1,34 @@
 package ru.t1murcoder.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.t1murcoder.domain.Lesson;
+import ru.t1murcoder.domain.Group;
 import ru.t1murcoder.domain.Student;
-import ru.t1murcoder.repository.LessonRepository;
+import ru.t1murcoder.repository.GroupRepository;
 import ru.t1murcoder.repository.StudentRepository;
+import ru.t1murcoder.repository.TeacherRepository;
 import ru.t1murcoder.service.StudentService;
 
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class StudentServiceImpl implements StudentService {
-    private final StudentRepository studentRepository;
-    private final LessonRepository lessonRepository;
 
-    @Autowired
-    public StudentServiceImpl(StudentRepository studentRepository, LessonRepository lessonRepository) {
-        this.studentRepository = studentRepository;
-        this.lessonRepository = lessonRepository;
-    }
+    private final StudentRepository studentRepository;
+    private final GroupRepository groupRepository;
+    private final TeacherRepository teacherRepository;
 
     @Override
     public Student add(Student student) {
+
+        if (studentRepository.findByUsername(student.getUsername()).isPresent()) {
+            throw new RuntimeException("Student is already exists");
+        }
+        if (teacherRepository.findByUsername(student.getUsername()).isPresent())
+            throw new RuntimeException("Login is already occupied");
+
         return studentRepository.save(student);
     }
 
@@ -36,17 +39,35 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student getById(long id) {
-        // Тут лучше сделать проверку на пустоту объекта методом .orElseThrow()
-        Student student = studentRepository.findById(id).orElseThrow();
-        Set<Lesson> lessons = lessonRepository.findByAttendedStudentSetContaining(student);
-        student.setLessonsAttendSet(lessons);
-        return student;
+        Optional<Student> studentOptional = studentRepository.findById(id);
+
+        if (studentOptional.isEmpty())
+            throw new RuntimeException("Student with ID " + id + " not found");
+
+
+        return studentOptional.get();
     }
 
     @Override
     public Student update(Student student) {
-        // TODO: Сделать чтобы нельзя было апдейдить не существующего ученика
-        return studentRepository.save(student);
+        return null;
+    }
+
+    @Override
+    public Student getByUsername(String username) {
+        return null;
+    }
+
+    @Override
+    public List<Student> getByGroup(Group group) {
+        Optional<Group> group1 = groupRepository.findById(group.getId());
+
+        if (group1.isEmpty())
+            throw new RuntimeException("Group not found");
+
+        List<Student> studentList = studentRepository.findByGroup(group1.get());
+
+        return studentList;
     }
 
     @Override
@@ -55,17 +76,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Student addAttendance(long student_id, long lesson_id) {
-        Student student = studentRepository.findById(student_id).orElseThrow();
-        Lesson lesson = lessonRepository.findById(lesson_id).orElseThrow();
-        Set<Lesson> lessonSet = lessonRepository.findByAttendedStudentSetContaining(student);
-        lessonSet.add(lesson);
-        student.setLessonsAttendSet(lessonSet);
-        return studentRepository.save(student);
+    public Student addAttendance(long studentId, long lessonId) {
+        return null;
     }
-    // TODO: Сделать DTO, чтобы исключить возможность рекурсивного вызова toString(), equals(), hashCode()
-
-    //    @ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "There is no such student")
-//    private class NoSuchStudentFound extends Exception {
-//    }
 }
