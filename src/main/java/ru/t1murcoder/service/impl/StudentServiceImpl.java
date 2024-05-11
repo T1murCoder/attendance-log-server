@@ -2,11 +2,16 @@ package ru.t1murcoder.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.t1murcoder.controller.dto.UserProfileDto;
 import ru.t1murcoder.domain.Group;
 import ru.t1murcoder.domain.Student;
+import ru.t1murcoder.domain.User;
+import ru.t1murcoder.exception.UserNotFoundException;
+import ru.t1murcoder.mapper.UserMapper;
 import ru.t1murcoder.repository.GroupRepository;
 import ru.t1murcoder.repository.StudentRepository;
 import ru.t1murcoder.repository.TeacherRepository;
+import ru.t1murcoder.repository.UserRepository;
 import ru.t1murcoder.service.StudentService;
 
 import java.util.List;
@@ -19,6 +24,7 @@ public class StudentServiceImpl implements StudentService {
     private final StudentRepository studentRepository;
     private final GroupRepository groupRepository;
     private final TeacherRepository teacherRepository;
+    private final UserRepository userRepository;
 
     @Override
     public Student add(Student student) {
@@ -76,7 +82,13 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Student addAttendance(long studentId, long lessonId) {
-        return null;
+    public UserProfileDto checkUsernameIsPresent(String username) {
+        Optional<User> userOptional = userRepository.findByUsername(username);
+
+        if (userOptional.isEmpty())
+            throw new UserNotFoundException("User with name " + username + " not found");
+
+        return UserMapper.toUserProfileDto(userOptional.get());
     }
+
 }

@@ -2,6 +2,7 @@ package ru.t1murcoder.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -12,22 +13,13 @@ import java.util.Set;
 
 @Data
 @Entity
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "teacher")
 //@EqualsAndHashCode(exclude = {"groupList", "lessonList"})
 //@ToString(exclude = {"groupList", "lessonList"})
-public class Teacher implements UserDetails {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
-
-//    @Column(name = "username", unique = true)
-    @Column(name = "username")
-    private String username;
+public class Teacher extends User {
 
     @Column(name = "name")
     private String name;
@@ -47,29 +39,4 @@ public class Teacher implements UserDetails {
     @OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<Group> groupList;
 
-    @Column(name = "password")
-    private String password;
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Authority> authorities;
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }

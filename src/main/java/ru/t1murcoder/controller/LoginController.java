@@ -27,8 +27,6 @@ public class LoginController {
 //
 //    @PostMapping("/teacher/login")
 //    public UserProfileDto login(@RequestBody LoginDto userData) {
-//        //TODO: Добавить спринг секьюрити
-//        //TODO: перейти на spring 2.5.5
 //        return null;
 //    }
 

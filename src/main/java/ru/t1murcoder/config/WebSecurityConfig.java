@@ -42,7 +42,7 @@ public class WebSecurityConfig{
                         .requestMatchers(new AntPathRequestMatcher("/teacher/**")).hasAuthority("ROLE_TEACHER")
                         .requestMatchers(HttpMethod.GET, "/hello_auth").hasAuthority("ROLE_TEACHER")
                         .requestMatchers(HttpMethod.GET, "/hello").permitAll()
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 )
                 .httpBasic(Customizer.withDefaults())
                 .headers().frameOptions().disable();

@@ -5,16 +5,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.t1murcoder.controller.dto.UserProfileDto;
 import ru.t1murcoder.controller.dto.UserRegisterDto;
-import ru.t1murcoder.domain.Authority;
-import ru.t1murcoder.domain.Group;
-import ru.t1murcoder.domain.Student;
-import ru.t1murcoder.domain.Teacher;
+import ru.t1murcoder.domain.*;
 import ru.t1murcoder.exception.UserNotFoundException;
 import ru.t1murcoder.mapper.UserMapper;
-import ru.t1murcoder.repository.AuthorityRepository;
-import ru.t1murcoder.repository.GroupRepository;
-import ru.t1murcoder.repository.StudentRepository;
-import ru.t1murcoder.repository.TeacherRepository;
+import ru.t1murcoder.repository.*;
 import ru.t1murcoder.service.TeacherService;
 
 import java.util.HashSet;
@@ -30,6 +24,7 @@ public class TeacherServiceImpl implements TeacherService {
     private final TeacherRepository teacherRepository;
     private final StudentRepository studentRepository;
     private final AuthorityRepository authorityRepository;
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -85,17 +80,12 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public UserProfileDto checkUsernameIsPresent(String username) {
-        Optional<Teacher> teacherOptional = teacherRepository.findByUsername(username);
-        Optional<Student> studentOptional = studentRepository.findByUsername(username);
+        Optional<User> userOptional = userRepository.findByUsername(username);
 
-        if (teacherOptional.isEmpty())
+        if (userOptional.isEmpty())
             throw new UserNotFoundException("User with name " + username + " not found");
-//        if (studentOptional.isEmpty())
-//            throw new UserNotFoundException("User with name " + username + " not found");
 
-        //FIXME СДЕЛАТЬ ПРОВЕРКУ НА ТО ЧТО ИМЯ НЕ ДОЛЖНО СУЩЕСТВОВАТЬ В ДВУХ ТАБЛИЦАХ
-
-        return UserMapper.toUserProfileDto(teacherOptional.get());
+        return UserMapper.toUserProfileDto(userOptional.get());
     }
 
     @Override

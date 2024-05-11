@@ -1,5 +1,6 @@
 package ru.t1murcoder.service;
 
+import ru.t1murcoder.controller.dto.UserProfileDto;
 import ru.t1murcoder.domain.Group;
 import ru.t1murcoder.domain.Student;
 
@@ -18,5 +19,5 @@ public interface StudentService {
 
     void deleteById(long id);
 
-    Student addAttendance(long studentId, long lessonId);
+    UserProfileDto checkUsernameIsPresent(String username);
 }

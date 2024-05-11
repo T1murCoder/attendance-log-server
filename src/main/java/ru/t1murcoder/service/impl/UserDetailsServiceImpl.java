@@ -6,8 +6,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import ru.t1murcoder.domain.Teacher;
+import ru.t1murcoder.domain.User;
 import ru.t1murcoder.exception.UserNotFoundException;
 import ru.t1murcoder.repository.TeacherRepository;
+import ru.t1murcoder.repository.UserRepository;
 
 import java.util.Optional;
 
@@ -15,13 +17,11 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    //TODO: тут сделать чтобы искал по логину в студентах и учителях
-
-    private final TeacherRepository teacherRepository;
+    private final UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<Teacher> byUsername = teacherRepository.findByUsername(username);
+        Optional<User> byUsername = userRepository.findByUsername(username);
 
         if (byUsername.isEmpty()) throw new UserNotFoundException("User with username " + username + " not found");
 
