@@ -30,11 +30,8 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public UserProfileDto add(UserRegisterDto userRegisterDto) {
 
-        if (teacherRepository.findByUsername(userRegisterDto.getUsername()).isPresent())
-            throw new RuntimeException("Teacher is already exists");
-
-        if (studentRepository.findByUsername(userRegisterDto.getUsername()).isPresent())
-            throw new RuntimeException("This username is already occupied");
+        if (userRepository.findByUsername(userRegisterDto.getUsername()).isPresent())
+            throw new RuntimeException("Login is already occupied");
 
         Optional<Authority> optionalAuthority = authorityRepository.findByAuthority("ROLE_TEACHER");
         if (optionalAuthority.isEmpty()) throw new RuntimeException("Authority not found");

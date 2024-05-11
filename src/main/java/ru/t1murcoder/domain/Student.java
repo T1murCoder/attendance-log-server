@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.HashSet;
@@ -13,31 +14,19 @@ import java.util.Set;
 
 @Data
 @Entity
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "student")
 //@ToString(exclude = {"group", "eventList", "lessonsAttendSet"})
 //@EqualsAndHashCode(exclude = {"group", "eventList", "lessonsAttendSet"})
-public class Student {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
-
-//    @Column(name = "username", unique = true)
-    @Column(name = "username")
-    private String username;
+public class Student extends User {
 
     @Column(name = "name")
     private String name;
 
     @Column(name = "surname")
     private String surname;
-
-    @Column(name = "password")
-    private String password;
 
     @Column(name = "telegram_url")
     private String telegramUrl;
