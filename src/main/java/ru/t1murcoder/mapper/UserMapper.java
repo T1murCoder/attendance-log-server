@@ -5,6 +5,7 @@ import ru.t1murcoder.controller.dto.UserProfileDto;
 import ru.t1murcoder.controller.dto.UserRegisterDto;
 import ru.t1murcoder.domain.Student;
 import ru.t1murcoder.domain.Teacher;
+import ru.t1murcoder.domain.User;
 
 @UtilityClass
 public class UserMapper {
@@ -35,6 +36,14 @@ public class UserMapper {
                 .build();
     }
 
+    public UserProfileDto toUserProfileDto(User user) {
+
+        return UserProfileDto.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .build();
+    }
+
     public Student toStudentEntity(UserRegisterDto userRegisterDto) {
 
         Student student = Student.builder()
@@ -59,6 +68,14 @@ public class UserMapper {
                 .telegramUrl(userProfileDto.getTelegramUrl())
                 .githubUrl(userProfileDto.getGithubUrl())
                 .photoUrl(userProfileDto.getPhotoUrl())
+                .build();
+    }
+
+    public User toUserEntity(UserProfileDto userProfileDto) {
+
+        return User.builder()
+                .id(userProfileDto.getId())
+                .username(userProfileDto.getUsername())
                 .build();
     }
 
@@ -109,6 +126,18 @@ public class UserMapper {
                 .username(teacher.getUsername())
                 .password(teacher.getPassword())
                 .build();
+    }
+
+    public User toUserEntity(UserRegisterDto userRegisterDto) {
+
+        User user = User.builder()
+                .username(userRegisterDto.getUsername())
+                .password(userRegisterDto.getPassword())
+                .build();
+
+        if (userRegisterDto.getId() != null) user.setId(userRegisterDto.getId());
+
+        return user;
     }
 
 }
