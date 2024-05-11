@@ -14,6 +14,7 @@ public interface TeacherService {
     UserProfileDto getById(long id);
 
     UserProfileDto getByUsername(String username);
+    //TODO: Сделать метод получения по группам
     UserProfileDto checkUsernameIsPresent(String username);
 
     UserProfileDto update(long id, UserProfileDto userProfileDto);
