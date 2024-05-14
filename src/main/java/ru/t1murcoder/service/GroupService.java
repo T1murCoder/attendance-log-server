@@ -1,6 +1,8 @@
 package ru.t1murcoder.service;
 
 import ru.t1murcoder.controller.dto.GroupDto;
+import ru.t1murcoder.controller.dto.GroupWithoutStudentsDto;
+import ru.t1murcoder.controller.dto.UserProfileDto;
 import ru.t1murcoder.domain.Group;
 import ru.t1murcoder.domain.Lesson;
 import ru.t1murcoder.domain.Student;
@@ -9,17 +11,20 @@ import ru.t1murcoder.domain.Teacher;
 import java.util.List;
 
 public interface GroupService {
-    Group add(Group group);
+    GroupDto add(GroupDto groupDto, String teacherUsername);
 
-    List<Group> getAll();
+    List<GroupDto> getAll();
 
-    Group getById(long id);
+    GroupDto getById(long id);
 
-    Group getByName(String name);
+    GroupDto getByName(String name);
 
-    List<Group> getByTeacher(Teacher teacher);
+    List<GroupDto> getByTeacherUsername(String username);
+    List<GroupWithoutStudentsDto> getByTeacherUsernameWithoutStudents(String username);
 
-    Group update(long id, Group group);
+    GroupDto getByStudentUsername(String username);
+
+//    GroupDto update(long id, GroupDto GroupDto);
 
     void deleteById(long id);
 }
