@@ -20,8 +20,8 @@ public class GroupController {
         return groupService.add(groupDto, authentication.getName());
     }
 
-    @PutMapping()
-    public GroupDto update() {
+    @PutMapping("/{id}")
+    public GroupDto update(@PathVariable Long id, @RequestBody GroupDto groupDto) {
         return null; //FIXME
     }
 
