@@ -9,10 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class StudentDto {
+public class GroupWithoutStudentsDto {
     private Long id;
     private String name;
-    private String surname;
-    private Float points;
-    //TODO: сделать посещения
 }
