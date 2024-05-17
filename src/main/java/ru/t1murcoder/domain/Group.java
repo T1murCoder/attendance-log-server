@@ -10,7 +10,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-//@EqualsAndHashCode(exclude = {"studentList", "schedule"})
+@EqualsAndHashCode(exclude = {"teacher", "studentList"})
 //@ToString(exclude = {"studentList", "schedule"})
 @Table(name = "groups")
 public class Group {

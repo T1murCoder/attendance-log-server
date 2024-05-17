@@ -19,7 +19,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Table(name = "student")
 //@ToString(exclude = {"group", "eventList", "lessonsAttendSet"})
-//@EqualsAndHashCode(exclude = {"group", "eventList", "lessonsAttendSet"})
+@EqualsAndHashCode(exclude = {"group", "attendanceList"})
 public class Student extends User {
 
     @Column(name = "name")

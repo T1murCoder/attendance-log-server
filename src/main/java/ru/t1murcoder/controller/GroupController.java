@@ -41,7 +41,7 @@ public class GroupController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable Long id) {
-        groupService.deleteById(id);
+    public void deleteById(Authentication authentication, @PathVariable Long id) {
+        groupService.deleteById(id, authentication.getName());
     }
 }

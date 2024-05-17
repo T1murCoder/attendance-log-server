@@ -1,5 +1,8 @@
 package ru.t1murcoder.service;
 
+import jakarta.transaction.Transactional;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import ru.t1murcoder.controller.dto.GroupDto;
 import ru.t1murcoder.controller.dto.GroupWithoutStudentsDto;
 import ru.t1murcoder.controller.dto.UserProfileDto;
@@ -26,5 +29,5 @@ public interface GroupService {
 
 //    GroupDto update(long id, GroupDto GroupDto);
 
-    void deleteById(long id);
+    void deleteById(long id, String username);
 }

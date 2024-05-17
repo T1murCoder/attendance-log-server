@@ -126,9 +126,19 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public void deleteById(long id) {
-        //FIXME Сделать чтобы удалялась группа, но не удалялись Student
+    @Transactional
+    public void deleteById(long id, String username) {
         // TODO: тут сделать проверку, что группу удалить может только владелец
+        Group group = groupRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("Group with ID " + id + " not found"));
+
+        Teacher teacher = teacherRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("Teacher with ID " + id + " not found"));
+
+        if (!group.getTeacher().equals(teacher))
+            throw new RuntimeException("Only the owner can delete the group");
+
+        groupRepository.deleteRelationById(id);
         groupRepository.deleteById(id);
     }
 
