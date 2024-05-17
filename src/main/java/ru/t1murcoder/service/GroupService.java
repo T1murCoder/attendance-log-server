@@ -27,7 +27,7 @@ public interface GroupService {
 
     GroupDto getByStudentUsername(String username);
 
-//    GroupDto update(long id, GroupDto GroupDto);
+    GroupDto update(long id, GroupDto groupDto);
 
     void deleteById(long id, String username);
 }

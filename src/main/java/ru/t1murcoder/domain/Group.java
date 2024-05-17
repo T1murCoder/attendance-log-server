@@ -20,7 +20,7 @@ public class Group {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name", unique = true)
+    @Column(name = "name")
     private String name;
 
     @OneToMany(mappedBy = "group", fetch = FetchType.LAZY)

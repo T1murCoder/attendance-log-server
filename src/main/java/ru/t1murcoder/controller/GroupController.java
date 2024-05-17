@@ -22,7 +22,7 @@ public class GroupController {
 
     @PutMapping("/{id}")
     public GroupDto update(@PathVariable Long id, @RequestBody GroupDto groupDto) {
-        return null; //FIXME
+        return groupService.update(id, groupDto);
     }
 
     @GetMapping()

@@ -126,6 +126,31 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
+    public GroupDto update(long id, GroupDto groupDto) {
+
+        Group group = groupRepository.findById(id).orElseThrow(
+                () -> new RuntimeException("Group with ID " + id + " not found")
+        );
+
+        List<Student> studentList = new ArrayList<>();
+
+        for (Student s : GroupMapper.toGroupEntity(groupDto).getStudentList()) {
+            Student student = studentRepository.findById(s.getId()).orElseThrow(
+                    () -> new UserNotFoundException("Student not found")
+            );
+
+            student.setGroup(group);
+
+            studentList.add(student);
+
+        }
+
+        group.setStudentList(studentList);
+
+        return GroupMapper.toGroupDto(groupRepository.save(group));
+    }
+
+    @Override
     @Transactional
     public void deleteById(long id, String username) {
         // TODO: тут сделать проверку, что группу удалить может только владелец
