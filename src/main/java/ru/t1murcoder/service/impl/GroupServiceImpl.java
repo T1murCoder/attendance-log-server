@@ -8,6 +8,7 @@ import ru.t1murcoder.controller.dto.GroupWithoutStudentsDto;
 import ru.t1murcoder.domain.Group;
 import ru.t1murcoder.domain.Student;
 import ru.t1murcoder.domain.Teacher;
+import ru.t1murcoder.exception.GroupNotFoundException;
 import ru.t1murcoder.exception.UserNotFoundException;
 import ru.t1murcoder.mapper.GroupMapper;
 import ru.t1murcoder.repository.GroupRepository;
@@ -29,8 +30,8 @@ public class GroupServiceImpl implements GroupService {
     private final StudentRepository studentRepository;
 
     @Override
+    @Transactional
     public GroupDto add(GroupDto groupDto, String teacherUsername) {
-        //FIXME Сделать добавление групп вместе с созданием
         Optional<Teacher> teacher = teacherRepository.findByUsername(teacherUsername);
 
         if (teacher.isEmpty())
@@ -78,7 +79,7 @@ public class GroupServiceImpl implements GroupService {
         Optional<Group> group = groupRepository.findById(id);
 
         if (group.isEmpty())
-            throw new RuntimeException("Group not found");
+            throw new GroupNotFoundException("Group with ID " + id + " not found");
 
         return GroupMapper.toGroupDto(group.get());
     }
@@ -126,77 +127,46 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public void deleteById(long id) {
-        //FIXME Сделать чтобы удалялась группа, но не удалялись Student
-        // TODO: тут сделать проверку, что группу удалить может только владелец
+    public GroupDto update(long id, GroupDto groupDto) {
+
+        Group group = groupRepository.findById(id).orElseThrow(
+                () -> new GroupNotFoundException("Group with ID " + id + " not found")
+        );
+
+        List<Student> studentList = new ArrayList<>();
+
+        for (Student s : GroupMapper.toGroupEntity(groupDto).getStudentList()) {
+            Student student = studentRepository.findById(s.getId()).orElseThrow(
+                    () -> new UserNotFoundException("Student not found")
+            );
+
+            student.setGroup(group);
+
+            studentList.add(student);
+
+        }
+
+        group.setStudentList(studentList);
+
+        return GroupMapper.toGroupDto(groupRepository.save(group));
+    }
+
+    @Override
+    @Transactional
+    public void deleteById(long id, String username) {
+        // TODO: Сделать удаление уроков и присутствий вместе с группой
+        Group group = groupRepository.findById(id)
+                .orElseThrow(() -> new GroupNotFoundException("Group with ID " + id + " not found"));
+
+        Teacher teacher = teacherRepository.findByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException("Teacher with ID " + id + " not found"));
+
+        if (!group.getTeacher().getUsername().equals(teacher.getUsername()))
+            throw new RuntimeException("Only the owner can delete the group");
+
+        groupRepository.deleteStudentRelationById(id);
+//        groupRepository.deleteLessonsByGroupId(id);
         groupRepository.deleteById(id);
     }
 
-
-//    @Override
-//    public Group add(Group group) {
-//        Teacher teacher = group.getTeacher();
-//        if (teacherRepository.findById(teacher.getId()).isEmpty())
-//            throw new RuntimeException("Teacher not found");
-//
-//        if (group.getName() == null)
-//            throw new RuntimeException("Group must have name");
-//
-//        if (groupRepository.findByName(group.getName()).isPresent())
-//            throw new RuntimeException("Group already exists");
-//
-//        return groupRepository.save(group);
-//    }
-//
-//    @Override
-//    public List<Group> getAll() {
-//        return groupRepository.findAll();
-//    }
-//
-//    @Override
-//    public Group getById(long id) {
-//        Optional<Group> group = groupRepository.findById(id);
-//
-//        if (group.isEmpty())
-//            throw new RuntimeException("Group not found");
-//
-//        return group.get();
-//    }
-//
-//    @Override
-//    public Group getByName(String name) {
-//        Optional<Group> group = groupRepository.findByName(name);
-//
-//        if (group.isEmpty())
-//            throw new RuntimeException("Group not found");
-//
-//        return group.get();
-//    }
-//
-//    @Override
-//    public List<Group> getByTeacher(Teacher teacher) {
-//        List<Group> group = groupRepository.findByTeacher(teacher);
-//
-//        if (group.isEmpty())
-//            throw new RuntimeException("Group not found");
-//
-//        return group;
-//    }
-//
-//    @Override
-//    public Group update(long id, Group group) {
-////        Optional<Group> groupOptional = groupRepository.findById(id);
-////
-////        if (groupOptional.isEmpty()) throw new RuntimeException("Group with ID " + id + " not found");
-////
-////        Group newGroup = groupOptional.get();
-////        newGroup.
-//
-//        return null;
-//    }
-//
-//    @Override
-//    public void deleteById(long id) {
-//        groupRepository.deleteById(id);
-//    }
 }

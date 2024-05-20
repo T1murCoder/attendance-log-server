@@ -2,62 +2,84 @@ package ru.t1murcoder.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.t1murcoder.controller.dto.LessonDto;
+import ru.t1murcoder.domain.Group;
 import ru.t1murcoder.domain.Lesson;
+import ru.t1murcoder.exception.GroupNotFoundException;
+import ru.t1murcoder.exception.LessonNotFoundException;
+import ru.t1murcoder.mapper.GroupMapper;
+import ru.t1murcoder.mapper.LessonMapper;
 import ru.t1murcoder.repository.GroupRepository;
 import ru.t1murcoder.repository.LessonRepository;
 import ru.t1murcoder.service.LessonService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class LessonServiceImpl implements LessonService {
-    // TODO: СДелать сервис управления урока
-    private final LessonRepository lessonRepository;
+
     private final GroupRepository groupRepository;
+    private final LessonRepository lessonRepository;
 
     @Override
-    public Lesson add(Lesson lesson) {
+    public LessonDto add(LessonDto lessonDto) {
 
-        if (lesson.getTheme() != null)
+        Optional<Group> group = groupRepository.findById(lessonDto.getGroupId());
+
+        if (group.isEmpty())
+            throw new GroupNotFoundException("Group with ID " + lessonDto.getGroupId() + " not found");
+        if (lessonDto.getTheme() == null)
             throw new RuntimeException("Lesson must have theme");
-        if (lesson.getTimeStart() != null)
+        if (lessonDto.getTimeStart() == null)
             throw new RuntimeException("Lesson must have start time");
-        if (lesson.getTimeEnd() != null)
+        if (lessonDto.getTimeEnd() == null)
             throw new RuntimeException("Lesson must have end time");
-        if (lesson.getDate() != null)
+        if (lessonDto.getDate() == null)
             throw new RuntimeException("Lesson must have date");
-        if (lesson.getGroup() != null)
-            throw new RuntimeException("Lesson must have group");
-        if (groupRepository.findById(lesson.getGroup().getId()).isEmpty())
-            throw new RuntimeException("Group does not exist");
 
-        return lessonRepository.save(lesson);
+        Lesson lesson = LessonMapper.toLessonEntity(lessonDto);
+
+        lesson.setGroup(group.get());
+
+        return LessonMapper.toLessonDto(lessonRepository.save(lesson));
     }
 
     @Override
-    public List<Lesson> getAll() {
-        return lessonRepository.findAll();
+    public List<LessonDto> getAll() {
+        return lessonRepository.findAll()
+                .stream()
+                .map(LessonMapper::toLessonDto)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Lesson getById(long id) {
+    public LessonDto getById(long id) {
+        Optional<Lesson> lesson = lessonRepository.findById(id);
 
-        Optional<Lesson> lessonOptional = lessonRepository.findById(id);
+        if (lesson.isEmpty())
+            throw new LessonNotFoundException("Lesson with ID " + id + " not found");
 
-        if (lessonOptional.isEmpty()) throw new RuntimeException("Lesson not found");
-
-        return lessonOptional.get();
+        return LessonMapper.toLessonDto(lesson.get());
     }
 
     @Override
-    public Lesson update(Lesson lesson) {
+    public LessonDto update(LessonDto lessonDto) {
+        // TODO: сделать обновление уроков
         return null;
     }
 
     @Override
     public void deleteById(long id) {
+        // TODO: сдлелать удаление уроков и присутствий
+        Lesson lesson = lessonRepository.findById(id)
+                        .orElseThrow(
+                                () -> new LessonNotFoundException("Lesson with ID " + id + " not found")
+                        );
+
+
         lessonRepository.deleteById(id);
     }
 }

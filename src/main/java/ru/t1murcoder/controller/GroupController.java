@@ -22,7 +22,7 @@ public class GroupController {
 
     @PutMapping("/{id}")
     public GroupDto update(@PathVariable Long id, @RequestBody GroupDto groupDto) {
-        return null; //FIXME
+        return groupService.update(id, groupDto);
     }
 
     @GetMapping()
@@ -41,7 +41,7 @@ public class GroupController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable Long id) {
-        groupService.deleteById(id);
+    public void deleteById(Authentication authentication, @PathVariable Long id) {
+        groupService.deleteById(id, authentication.getName());
     }
 }

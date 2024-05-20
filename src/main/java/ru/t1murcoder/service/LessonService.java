@@ -1,17 +1,18 @@
 package ru.t1murcoder.service;
 
+import ru.t1murcoder.controller.dto.LessonDto;
 import ru.t1murcoder.domain.Lesson;
 
 import java.util.List;
 
 public interface LessonService {
-    Lesson add(Lesson lesson);
+    LessonDto add(LessonDto lessonDto);
 
-    List<Lesson> getAll();
+    List<LessonDto> getAll();
 
-    Lesson getById(long id);
+    LessonDto getById(long id);
 
-    Lesson update(Lesson lesson);
+    LessonDto update(LessonDto lessonDto);
 
     void deleteById(long id);
 }

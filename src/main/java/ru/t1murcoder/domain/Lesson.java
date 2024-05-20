@@ -14,7 +14,7 @@ import java.util.*;
 @AllArgsConstructor
 @Table(name = "lesson")
 //@ToString(exclude = {"teacher", "schedule", "attendedStudentSet"})
-//@EqualsAndHashCode(exclude = {"teacher", "schedule", "attendedStudentSet"})
+@EqualsAndHashCode(exclude = {"group", "attendanceList"})
 public class Lesson {
 
     @Id

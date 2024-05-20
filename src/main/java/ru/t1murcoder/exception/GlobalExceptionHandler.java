@@ -11,4 +11,19 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handlePersonNotFoundException(UserNotFoundException e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(LessonNotFoundException.class)
+    public ResponseEntity<String> handleLessonNotFoundException(LessonNotFoundException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(GroupNotFoundException.class)
+    public ResponseEntity<String> handleGroupNotFoundException(GroupNotFoundException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(AttendanceNotFoundException.class)
+    public ResponseEntity<String> handleAttendanceNotFoundException(AttendanceNotFoundException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+    }
 }
