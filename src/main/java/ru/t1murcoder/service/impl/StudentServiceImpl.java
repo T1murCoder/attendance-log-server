@@ -107,6 +107,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void deleteById(long id) {
+        // TODO: пофиксить удаление, сделать удаление присутствий
         Student student = studentRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("Student with ID " + id + " not found"));
 

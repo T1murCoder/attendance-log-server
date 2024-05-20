@@ -17,7 +17,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "teacher")
-//@EqualsAndHashCode(exclude = {"groupList", "lessonList"})
+@EqualsAndHashCode(exclude = {"groupList"})
 //@ToString(exclude = {"groupList", "lessonList"})
 public class Teacher extends User {
 
