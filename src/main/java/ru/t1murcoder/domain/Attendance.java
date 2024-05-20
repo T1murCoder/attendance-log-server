@@ -1,10 +1,7 @@
 package ru.t1murcoder.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @Entity
@@ -12,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "attendance")
+@EqualsAndHashCode(exclude = {"student", "lesson"})
 public class Attendance {
 
     @Id

@@ -40,7 +40,7 @@ public class Student extends User {
     @Column(name = "points")
     private Float points;
 
-    @ManyToOne(targetEntity = Group.class, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = Group.class, fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "group_id")
     private Group group;
 
