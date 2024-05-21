@@ -1,6 +1,7 @@
 package ru.t1murcoder.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import ru.t1murcoder.controller.dto.LessonDto;
 import ru.t1murcoder.service.LessonService;
@@ -26,6 +27,11 @@ public class LessonController {
     @GetMapping("/{id}")
     public LessonDto getById(@PathVariable Long id) {
         return lessonService.getById(id);
+    }
+
+    @GetMapping("/teacher/")
+    public List<LessonDto> getAllByTeacherUsername(Authentication authentication) {
+        return lessonService.getByTeacherUsername(authentication.getName());
     }
 
     @DeleteMapping("/{id}")

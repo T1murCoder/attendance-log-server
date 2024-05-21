@@ -23,7 +23,7 @@ public class Group {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "group", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "group", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Lesson> lessonList;
 
     @ManyToOne(targetEntity = Teacher.class, fetch = FetchType.LAZY)

@@ -30,7 +30,7 @@ public class AttendanceServiceImpl implements AttendanceService {
 
     @Override
     public AttendanceDto add(AttendanceDto attendanceDto) {
-
+        // TODO: Попробовать избавиться от дубликатов
         Attendance attendance = AttendanceMapper.toAttendanceEntity(attendanceDto);
 
         Student student = studentRepository.findById(attendanceDto.getStudentId())
@@ -103,8 +103,8 @@ public class AttendanceServiceImpl implements AttendanceService {
                         () -> new AttendanceNotFoundException("Attendance with ID " + id + " not found")
                 );
 
-        attendance.setIsVisited(attendanceDto.getIsVisited());
-        attendance.setPoints(attendanceDto.getPoints());
+        if (attendanceDto.getIsVisited() != null) attendance.setIsVisited(attendanceDto.getIsVisited());
+        if (attendanceDto.getPoints() != null) attendance.setPoints(attendanceDto.getPoints());
 
         return AttendanceMapper.toAttendanceDto(attendanceRepository.save(attendance));
     }

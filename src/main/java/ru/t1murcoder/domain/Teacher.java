@@ -36,7 +36,7 @@ public class Teacher extends User {
     @Column(name = "photo_url")
     private String photoUrl;
 
-    @OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Group> groupList;
 
 }

@@ -10,4 +10,5 @@ import java.util.Set;
 
 @Repository
 public interface LessonRepository extends JpaRepository<Lesson, Long> {
+    List<Lesson> findByGroupTeacherUsername(String username);
 }
