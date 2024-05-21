@@ -3,6 +3,7 @@ package ru.t1murcoder.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import ru.t1murcoder.controller.dto.StudentDto;
 import ru.t1murcoder.controller.dto.UserProfileDto;
 import ru.t1murcoder.controller.dto.UserRegisterDto;
 import ru.t1murcoder.service.StudentService;
@@ -53,4 +54,8 @@ public class StudentController {
         return "User " + byUsername.getUsername() + " is registered";
     }
 
+    @GetMapping("/vacant/")
+    public List<StudentDto> getVacantStudents() {
+        return studentService.getVacantStudents();
+    }
 }

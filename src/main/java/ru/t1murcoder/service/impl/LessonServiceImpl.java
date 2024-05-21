@@ -3,14 +3,16 @@ package ru.t1murcoder.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.t1murcoder.controller.dto.LessonDto;
-import ru.t1murcoder.domain.Group;
-import ru.t1murcoder.domain.Lesson;
+import ru.t1murcoder.domain.*;
 import ru.t1murcoder.exception.GroupNotFoundException;
 import ru.t1murcoder.exception.LessonNotFoundException;
+import ru.t1murcoder.exception.UserNotFoundException;
 import ru.t1murcoder.mapper.GroupMapper;
 import ru.t1murcoder.mapper.LessonMapper;
+import ru.t1murcoder.repository.AttendanceRepository;
 import ru.t1murcoder.repository.GroupRepository;
 import ru.t1murcoder.repository.LessonRepository;
+import ru.t1murcoder.repository.TeacherRepository;
 import ru.t1murcoder.service.LessonService;
 
 import java.util.List;
@@ -23,14 +25,16 @@ public class LessonServiceImpl implements LessonService {
 
     private final GroupRepository groupRepository;
     private final LessonRepository lessonRepository;
+    private final TeacherRepository teacherRepository;
+    private final AttendanceRepository attendanceRepository;
 
     @Override
     public LessonDto add(LessonDto lessonDto) {
+        Group group = groupRepository.findById(lessonDto.getGroupId())
+                .orElseThrow(
+                        () -> new GroupNotFoundException("Group with ID " + lessonDto.getGroupId() + " not found")
+                );
 
-        Optional<Group> group = groupRepository.findById(lessonDto.getGroupId());
-
-        if (group.isEmpty())
-            throw new GroupNotFoundException("Group with ID " + lessonDto.getGroupId() + " not found");
         if (lessonDto.getTheme() == null)
             throw new RuntimeException("Lesson must have theme");
         if (lessonDto.getTimeStart() == null)
@@ -42,9 +46,24 @@ public class LessonServiceImpl implements LessonService {
 
         Lesson lesson = LessonMapper.toLessonEntity(lessonDto);
 
-        lesson.setGroup(group.get());
+        lesson.setGroup(group);
 
-        return LessonMapper.toLessonDto(lessonRepository.save(lesson));
+        Lesson save = lessonRepository.save(lesson);
+
+        for (Student student : group.getStudentList()) {
+
+            Attendance attendance = Attendance.builder()
+                    .isVisited(false)
+                    .points(0f)
+                    .build();
+
+            attendance.setStudent(student);
+            attendance.setLesson(save);
+
+            attendanceRepository.save(attendance);
+        }
+
+        return LessonMapper.toLessonDto(save);
     }
 
     @Override
@@ -69,6 +88,20 @@ public class LessonServiceImpl implements LessonService {
     public LessonDto update(LessonDto lessonDto) {
         // TODO: сделать обновление уроков
         return null;
+    }
+
+    @Override
+    public List<LessonDto> getByTeacherUsername(String username) {
+        Teacher teacher = teacherRepository.findByUsername(username)
+                .orElseThrow(
+                        () -> new UserNotFoundException("Teacher with name " + username + " not found")
+                );
+
+        List<Lesson> lessonList = lessonRepository.findByGroupTeacherUsername(username);
+
+        return lessonList.stream()
+                .map(LessonMapper::toLessonDto)
+                .collect(Collectors.toList());
     }
 
     @Override

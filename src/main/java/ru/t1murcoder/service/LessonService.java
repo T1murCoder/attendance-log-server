@@ -14,5 +14,7 @@ public interface LessonService {
 
     LessonDto update(LessonDto lessonDto);
 
+    List<LessonDto> getByTeacherUsername(String username);
+
     void deleteById(long id);
 }

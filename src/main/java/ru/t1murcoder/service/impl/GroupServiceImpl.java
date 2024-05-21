@@ -12,6 +12,7 @@ import ru.t1murcoder.exception.GroupNotFoundException;
 import ru.t1murcoder.exception.UserNotFoundException;
 import ru.t1murcoder.mapper.GroupMapper;
 import ru.t1murcoder.repository.GroupRepository;
+import ru.t1murcoder.repository.LessonRepository;
 import ru.t1murcoder.repository.StudentRepository;
 import ru.t1murcoder.repository.TeacherRepository;
 import ru.t1murcoder.service.GroupService;
@@ -28,12 +29,12 @@ public class GroupServiceImpl implements GroupService {
     private final GroupRepository groupRepository;
     private final TeacherRepository teacherRepository;
     private final StudentRepository studentRepository;
+    private final LessonRepository lessonRepository;
 
     @Override
     @Transactional
     public GroupDto add(GroupDto groupDto, String teacherUsername) {
         Optional<Teacher> teacher = teacherRepository.findByUsername(teacherUsername);
-
         if (teacher.isEmpty())
             throw new UserNotFoundException("User with username " + teacherUsername + " not found");
 
@@ -47,6 +48,7 @@ public class GroupServiceImpl implements GroupService {
 
         group.setTeacher(teacher.get());
 
+        //TODO: Сделать проверку, что Student не занят
         List<Student> studentList = new ArrayList<>();
 
         for (Student s : group.getStudentList()) {
@@ -164,9 +166,21 @@ public class GroupServiceImpl implements GroupService {
         if (!group.getTeacher().getUsername().equals(teacher.getUsername()))
             throw new RuntimeException("Only the owner can delete the group");
 
-        groupRepository.deleteStudentRelationById(id);
-//        groupRepository.deleteLessonsByGroupId(id);
+//        for (Lesson lessonDb : group.getLessonList()) {
+//
+//            Lesson lesson = lessonRepository.findById(lessonDb.getId()).orElseThrow(
+//                    () -> new LessonNotFoundException("Lesson with ID " + lessonDb.getId() + " not found")
+//            );
+//
+//            lessonRepository.delete(lesson);
+//        }
+        // FIXME: Когда уроки удаляются отдельно, то всё работает, но когда удаляется группа вместе с зависимыми уроками, то падает ошибка
+        groupRepository.deleteStudentRelationByGroupId(id);
+        groupRepository.deleteAttendancesByGroupId(id);
+        groupRepository.deleteLessonsByGroupId(id);
         groupRepository.deleteById(id);
     }
 
+
+    //TODO: Сделать получение незанятых Student
 }
