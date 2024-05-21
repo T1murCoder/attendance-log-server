@@ -12,4 +12,5 @@ import java.util.Optional;
 public interface StudentRepository extends JpaRepository<Student, Long> {
     Optional<Student> findByUsername(String username);
     List<Student> findByGroup(Group group);
+    List<Student> findByGroupIsNull();
 }

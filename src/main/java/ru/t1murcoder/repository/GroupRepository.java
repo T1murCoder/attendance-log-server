@@ -21,9 +21,13 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
     void deleteById(long id);
     @Modifying
     @Query("UPDATE Student s SET s.group = null WHERE s.group.id = :id")
-    void deleteStudentRelationById(long id);
+    void deleteStudentRelationByGroupId(long id);
 
-//    @Modifying
-//    @Query("DELETE Lesson s WHERE Group.id := id")
-//    void deleteLessonsByGroupId(long id);
+    @Modifying
+    @Query("DELETE FROM Attendance a WHERE a.lesson.group.id = :id")
+    void deleteAttendancesByGroupId(long id);
+
+    @Modifying
+    @Query("DELETE FROM Lesson l WHERE l.group.id = :id")
+    void deleteLessonsByGroupId(long id);
 }

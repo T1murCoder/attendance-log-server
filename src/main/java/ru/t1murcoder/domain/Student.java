@@ -40,11 +40,11 @@ public class Student extends User {
     @Column(name = "points")
     private Float points;
 
-    @ManyToOne(targetEntity = Group.class, fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToOne(targetEntity = Group.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id")
     private Group group;
 
     // вероятно придётся перейти на Set
-    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Attendance> attendanceList;
 }

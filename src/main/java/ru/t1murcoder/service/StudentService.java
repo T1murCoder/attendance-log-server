@@ -1,5 +1,6 @@
 package ru.t1murcoder.service;
 
+import ru.t1murcoder.controller.dto.StudentDto;
 import ru.t1murcoder.controller.dto.UserProfileDto;
 import ru.t1murcoder.controller.dto.UserRegisterDto;
 import ru.t1murcoder.domain.Group;
@@ -13,6 +14,8 @@ public interface StudentService {
     List<UserProfileDto> getAll();
 
     UserProfileDto getById(long id);
+
+    List<StudentDto> getVacantStudents();
 
     UserProfileDto getByUsername(String username);
     //TODO: Сделать метод получения по группам

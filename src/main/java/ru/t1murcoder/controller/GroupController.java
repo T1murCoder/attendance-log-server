@@ -31,7 +31,7 @@ public class GroupController {
     }
 
     @GetMapping("/teacher/")
-    public List<GroupWithoutStudentsDto> getAllByTeacher(Authentication authentication) {
+    public List<GroupWithoutStudentsDto> getAllByTeacherUsername(Authentication authentication) {
         return groupService.getByTeacherUsernameWithoutStudents(authentication.getName());
     }
 

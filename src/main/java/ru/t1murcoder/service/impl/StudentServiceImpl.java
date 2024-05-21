@@ -3,10 +3,12 @@ package ru.t1murcoder.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import ru.t1murcoder.controller.dto.StudentDto;
 import ru.t1murcoder.controller.dto.UserProfileDto;
 import ru.t1murcoder.controller.dto.UserRegisterDto;
 import ru.t1murcoder.domain.*;
 import ru.t1murcoder.exception.UserNotFoundException;
+import ru.t1murcoder.mapper.StudentMapper;
 import ru.t1murcoder.mapper.UserMapper;
 import ru.t1murcoder.repository.*;
 import ru.t1murcoder.service.StudentService;
@@ -65,6 +67,14 @@ public class StudentServiceImpl implements StudentService {
             throw new UserNotFoundException("Student not found");
 
         return UserMapper.toUserProfileDto(student.get());
+    }
+
+    @Override
+    public List<StudentDto> getVacantStudents() {
+        List<Student> studentList = studentRepository.findByGroupIsNull();
+        return studentList.stream()
+                .map(StudentMapper::toStudentDto)
+                .collect(Collectors.toList());
     }
 
     @Override

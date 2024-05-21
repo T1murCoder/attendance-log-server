@@ -29,7 +29,6 @@ public class WebSecurityConfig{
 
     private final UserDetailsService userDetailsService;
 
-
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -47,7 +46,7 @@ public class WebSecurityConfig{
                         .requestMatchers(new AntPathRequestMatcher("/student/**")).hasAnyAuthority("ROLE_STUDENT", "ROLE_TEACHER")
                         .requestMatchers(HttpMethod.GET, "/hello_auth").hasAuthority("ROLE_TEACHER")
                         .requestMatchers(HttpMethod.GET, "/hello").permitAll()
-                        .anyRequest().permitAll()
+                        .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults())
                 .headers().frameOptions().disable();
