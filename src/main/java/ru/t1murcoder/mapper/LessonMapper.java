@@ -17,8 +17,10 @@ public class LessonMapper {
                 .date(lesson.getDate())
                 .build();
 
-        if (lesson.getGroup() != null)
+        if (lesson.getGroup() != null) {
             lessonDto.setGroupId(lesson.getGroup().getId());
+            lessonDto.setGroupName(lesson.getGroup().getName());
+        }
 
         return lessonDto;
     }

@@ -22,5 +22,7 @@ public class LessonDto {
 
     private GregorianCalendar date;
 
+    private String groupName;
+
     private Long groupId;
 }
