@@ -4,9 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.t1murcoder.controller.dto.StudentDto;
+import ru.t1murcoder.controller.dto.StudentWithAttendancesDto;
 import ru.t1murcoder.controller.dto.UserProfileDto;
 import ru.t1murcoder.controller.dto.UserRegisterDto;
 import ru.t1murcoder.domain.*;
+import ru.t1murcoder.exception.GroupNotFoundException;
 import ru.t1murcoder.exception.UserNotFoundException;
 import ru.t1murcoder.mapper.StudentMapper;
 import ru.t1murcoder.mapper.UserMapper;
@@ -24,12 +26,13 @@ import java.util.stream.Collectors;
 public class StudentServiceImpl implements StudentService {
 
     private final StudentRepository studentRepository;
-//    private final GroupRepository groupRepository;
+    private final GroupRepository groupRepository;
 //    private final TeacherRepository teacherRepository;
     private final AuthorityRepository authorityRepository;
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    //TODO: Продумать случай, когда ученик присоединяется позже к группе и у него нет всех уроков, которые были до этого момента
 
     @Override
     public UserProfileDto add(UserRegisterDto userRegisterDto) {
@@ -85,6 +88,17 @@ public class StudentServiceImpl implements StudentService {
             throw new UserNotFoundException("Student not found");
 
         return UserMapper.toUserProfileDto(student.get());
+    }
+
+    @Override
+    public List<StudentWithAttendancesDto> getByGroupId(long id) {
+        Group group = groupRepository.findById(id).orElseThrow(
+                () -> new GroupNotFoundException("Group with ID " + id + " not found")
+        );
+
+        return group.getStudentList().stream()
+                .map(StudentMapper::toStudentWithAttendancesDto)
+                .collect(Collectors.toList());
     }
 
 
