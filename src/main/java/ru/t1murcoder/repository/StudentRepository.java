@@ -11,6 +11,6 @@ import java.util.Optional;
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Long> {
     Optional<Student> findByUsername(String username);
-    List<Student> findByGroup(Group group);
+    List<Student> findByGroupId(Long id);
     List<Student> findByGroupIsNull();
 }
