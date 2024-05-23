@@ -4,6 +4,7 @@ package ru.t1murcoder.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.t1murcoder.controller.dto.AttendanceDto;
+import ru.t1murcoder.controller.dto.StudentDto;
 import ru.t1murcoder.service.AttendanceService;
 
 import java.util.List;
