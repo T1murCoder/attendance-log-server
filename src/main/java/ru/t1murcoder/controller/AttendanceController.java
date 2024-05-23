@@ -34,6 +34,11 @@ public class AttendanceController {
         return attendanceService.getAll();
     }
 
+    @GetMapping("/student/{id}")
+    public List<AttendanceDto> getByStudentId(@PathVariable Long id) {
+        return attendanceService.getByStudentId(id);
+    }
+
     @GetMapping("/{id}")
     public AttendanceDto getById(@PathVariable Long id) {
         return attendanceService.getById(id);
