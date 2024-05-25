@@ -156,7 +156,6 @@ public class GroupServiceImpl implements GroupService {
     @Override
     @Transactional
     public void deleteById(long id, String username) {
-        // TODO: Сделать удаление уроков и присутствий вместе с группой
         Group group = groupRepository.findById(id)
                 .orElseThrow(() -> new GroupNotFoundException("Group with ID " + id + " not found"));
 
@@ -174,7 +173,6 @@ public class GroupServiceImpl implements GroupService {
 //
 //            lessonRepository.delete(lesson);
 //        }
-        // FIXME: Когда уроки удаляются отдельно, то всё работает, но когда удаляется группа вместе с зависимыми уроками, то падает ошибка
         groupRepository.deleteStudentRelationByGroupId(id);
         groupRepository.deleteAttendancesByGroupId(id);
         groupRepository.deleteLessonsByGroupId(id);
@@ -182,5 +180,4 @@ public class GroupServiceImpl implements GroupService {
     }
 
 
-    //TODO: Сделать получение незанятых Student
 }

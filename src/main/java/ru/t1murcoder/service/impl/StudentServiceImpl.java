@@ -15,10 +15,7 @@ import ru.t1murcoder.mapper.UserMapper;
 import ru.t1murcoder.repository.*;
 import ru.t1murcoder.service.StudentService;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,6 +26,7 @@ public class StudentServiceImpl implements StudentService {
     private final GroupRepository groupRepository;
 //    private final TeacherRepository teacherRepository;
     private final AuthorityRepository authorityRepository;
+    private final AttendanceRepository attendanceRepository;
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -99,6 +97,33 @@ public class StudentServiceImpl implements StudentService {
         return group.getStudentList().stream()
                 .map(StudentMapper::toStudentWithAttendancesDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<StudentDto> getByGroupIdTemp(long id) {
+        Group group = groupRepository.findById(id).orElseThrow(
+                () -> new GroupNotFoundException("Group with ID " + id + " not found")
+        );
+
+        return group.getStudentList().stream()
+                .map(StudentMapper::toStudentDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<StudentDto> getAttendedStudentByLessonId(long id) {
+
+        List<Attendance> attendanceList = attendanceRepository.findByLessonId(id);
+
+        List<StudentDto> studentDtoList = new ArrayList<>();
+
+        for (Attendance attendance : attendanceList) {
+            if (attendance.getIsVisited()) {
+                studentDtoList.add(StudentMapper.toStudentDto(attendance.getStudent()));
+            }
+        }
+
+        return studentDtoList;
     }
 
 

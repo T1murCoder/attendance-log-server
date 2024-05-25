@@ -106,7 +106,6 @@ public class LessonServiceImpl implements LessonService {
 
     @Override
     public void deleteById(long id) {
-        // TODO: сдлелать удаление уроков и присутствий
         Lesson lesson = lessonRepository.findById(id)
                         .orElseThrow(
                                 () -> new LessonNotFoundException("Lesson with ID " + id + " not found")

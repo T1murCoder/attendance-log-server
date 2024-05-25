@@ -64,4 +64,14 @@ public class StudentController {
     public List<StudentDto> getVacantStudents() {
         return studentService.getVacantStudents();
     }
+
+    @GetMapping("/lesson/{id}")
+    public List<StudentDto> getAttendedStudents(@PathVariable Long id) {
+        return studentService.getAttendedStudentByLessonId(id);
+    }
+
+    @GetMapping("/temp/group/{id}")
+    public List<StudentDto> getStudentByGroup(@PathVariable Long id) {
+        return studentService.getByGroupIdTemp(id);
+    }
 }
