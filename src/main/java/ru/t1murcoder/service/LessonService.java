@@ -16,5 +16,7 @@ public interface LessonService {
 
     List<LessonDto> getByTeacherUsername(String username);
 
+    LessonDto markAttended(Long lessonId, Long studentId);
+
     void deleteById(long id);
 }

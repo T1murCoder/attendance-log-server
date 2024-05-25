@@ -9,10 +9,7 @@ import ru.t1murcoder.exception.LessonNotFoundException;
 import ru.t1murcoder.exception.UserNotFoundException;
 import ru.t1murcoder.mapper.GroupMapper;
 import ru.t1murcoder.mapper.LessonMapper;
-import ru.t1murcoder.repository.AttendanceRepository;
-import ru.t1murcoder.repository.GroupRepository;
-import ru.t1murcoder.repository.LessonRepository;
-import ru.t1murcoder.repository.TeacherRepository;
+import ru.t1murcoder.repository.*;
 import ru.t1murcoder.service.LessonService;
 
 import java.util.List;
@@ -27,6 +24,7 @@ public class LessonServiceImpl implements LessonService {
     private final LessonRepository lessonRepository;
     private final TeacherRepository teacherRepository;
     private final AttendanceRepository attendanceRepository;
+    private final StudentRepository studentRepository;
 
     @Override
     public LessonDto add(LessonDto lessonDto) {
@@ -102,6 +100,39 @@ public class LessonServiceImpl implements LessonService {
         return lessonList.stream()
                 .map(LessonMapper::toLessonDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public LessonDto markAttended(Long lessonId, Long studentId) {
+        Lesson lesson = lessonRepository.findById(lessonId)
+                .orElseThrow(
+                        () -> new LessonNotFoundException("Lesson with ID " + lessonId + " not found")
+                );
+
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(
+                        () -> new UserNotFoundException("Student with ID " + studentId + " not found")
+                );
+
+        Optional<Attendance> attendanceOptional = attendanceRepository.findByLessonIdAndStudentId(lessonId, studentId);
+
+        Attendance attendance;
+
+        if (attendanceOptional.isEmpty()) {
+
+            attendance = Attendance.builder()
+                    .lesson(lesson)
+                    .student(student)
+                    .isVisited(true)
+                    .build();
+        } else {
+            attendance = attendanceOptional.get();
+            attendance.setIsVisited(true);
+        }
+
+        attendanceRepository.save(attendance);
+
+        return LessonMapper.toLessonDto(lesson);
     }
 
     @Override

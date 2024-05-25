@@ -34,6 +34,11 @@ public class LessonController {
         return lessonService.getByTeacherUsername(authentication.getName());
     }
 
+    @PutMapping("/attendance/{lesson_id}/{student_id}")
+    public LessonDto markAttended(@PathVariable(name = "lesson_id") Long lessonId, @PathVariable(name = "student_id") Long studentId) {
+        return lessonService.markAttended(lessonId, studentId);
+    }
+
     @DeleteMapping("/{id}")
     public void deleteById(@PathVariable Long id) {
         lessonService.deleteById(id);
