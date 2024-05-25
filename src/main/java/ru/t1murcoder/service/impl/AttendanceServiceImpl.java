@@ -111,7 +111,6 @@ public class AttendanceServiceImpl implements AttendanceService {
 
     @Override
     public void deleteById(long id) {
-        // TODO: ПРоверить удаление
         Attendance attendance = attendanceRepository.findById(id)
                 .orElseThrow(
                         () -> new AttendanceNotFoundException("Attendance with ID " + id + " not found")
