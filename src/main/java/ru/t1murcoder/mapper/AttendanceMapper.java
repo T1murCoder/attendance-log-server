@@ -15,6 +15,7 @@ public class AttendanceMapper {
                 .points(attendance.getPoints())
                 .studentId(attendance.getStudent().getId())
                 .lessonId(attendance.getLesson().getId())
+                .lessonTimeStart(attendance.getLesson().getTimeStart())
                 .build();
 
         return attendanceDto;
