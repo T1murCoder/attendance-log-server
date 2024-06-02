@@ -15,16 +15,16 @@ import ru.t1murcoder.service.impl.TeacherServiceImpl;
 
 import java.util.List;
 
-@DataJpaTest
-public class GroupServiceTest {
-
-    GroupRepository groupRepository;
-
-    TeacherRepository teacherRepository;
-    StudentRepository studentRepository;
-
-    GroupService groupService;
-    TeacherService teacherService;
+//@DataJpaTest
+//public class GroupServiceTest {
+//
+//    GroupRepository groupRepository;
+//
+//    TeacherRepository teacherRepository;
+//    StudentRepository studentRepository;
+//
+//    GroupService groupService;
+//    TeacherService teacherService;
 
 //    @Autowired
 //    public GroupServiceTest(GroupRepository groupRepository, TeacherRepository teacherRepository, StudentRepository studentRepository) {
@@ -104,4 +104,4 @@ public class GroupServiceTest {
 //        System.out.println(groupList);
 //
 //    }
-}
+//}

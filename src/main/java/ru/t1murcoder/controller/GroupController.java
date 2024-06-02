@@ -40,6 +40,16 @@ public class GroupController {
         return groupService.getById(id);
     }
 
+//    @GetMapping("/student/{id}")
+//    public GroupDto getGroupByStudentId(@PathVariable Long id) {
+//        return groupService.getByStudentId(id);
+//    }
+
+    @GetMapping("/student/{id}")
+    public Long getGroupIdByStudentId(@PathVariable Long id) {
+        return groupService.getByStudentId(id).getId();
+    }
+
     @DeleteMapping("/{id}")
     public void deleteById(Authentication authentication, @PathVariable Long id) {
         groupService.deleteById(id, authentication.getName());

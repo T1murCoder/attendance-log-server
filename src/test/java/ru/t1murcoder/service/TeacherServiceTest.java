@@ -11,16 +11,16 @@ import ru.t1murcoder.repository.TeacherRepository;
 import ru.t1murcoder.service.impl.GroupServiceImpl;
 import ru.t1murcoder.service.impl.TeacherServiceImpl;
 
-@DataJpaTest
-public class TeacherServiceTest {
-
-    GroupRepository groupRepository;
-
-    TeacherRepository teacherRepository;
-    StudentRepository studentRepository;
-
-    GroupService groupService;
-    TeacherService teacherService;
+//@DataJpaTest
+//public class TeacherServiceTest {
+//
+//    GroupRepository groupRepository;
+//
+//    TeacherRepository teacherRepository;
+//    StudentRepository studentRepository;
+//
+//    GroupService groupService;
+//    TeacherService teacherService;
 
 //    @Autowired
 //    public TeacherServiceTest(GroupRepository groupRepository, TeacherRepository teacherRepository, StudentRepository studentRepository) {
@@ -94,4 +94,4 @@ public class TeacherServiceTest {
 //        System.out.println(newTeacher1.getGroupList());
 //    }
 
-}
+//}
