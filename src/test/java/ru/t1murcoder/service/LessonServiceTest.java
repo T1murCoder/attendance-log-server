@@ -1,4 +1,4 @@
 package ru.t1murcoder.service;
 
-public class LessonServiceTest {
-}
+//public class LessonServiceTest {
+//}
