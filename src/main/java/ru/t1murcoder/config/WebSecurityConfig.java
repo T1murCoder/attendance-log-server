@@ -44,6 +44,9 @@ public class WebSecurityConfig{
                         .requestMatchers(new AntPathRequestMatcher("/student/login")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/student/username/{username}")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/student/**")).hasAnyAuthority("ROLE_STUDENT", "ROLE_TEACHER")
+//                        .requestMatchers(new AntPathRequestMatcher("/group/{id}")).hasAnyAuthority("ROLE_STUDENT", "ROLE_TEACHER") // ЗДЕСЬ ВРЕМЕННО ОТКЛЮЧЕНО
+//                        .requestMatchers(new AntPathRequestMatcher("/group/student/{id}")).hasAnyAuthority("ROLE_STUDENT", "ROLE_TEACHER")
+//                        .requestMatchers(new AntPathRequestMatcher("/group/**")).hasAuthority("ROLE_TEACHER")
                         .requestMatchers(HttpMethod.GET, "/hello_auth").hasAuthority("ROLE_TEACHER")
                         .requestMatchers(HttpMethod.GET, "/hello").permitAll()
                         .anyRequest().authenticated()

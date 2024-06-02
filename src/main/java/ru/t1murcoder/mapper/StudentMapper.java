@@ -16,6 +16,7 @@ public class StudentMapper {
                 .id(student.getId())
                 .name(student.getName())
                 .surname(student.getSurname())
+                .username(student.getUsername())
                 .points(student.getPoints())
                 .build();
     }
@@ -46,6 +47,7 @@ public class StudentMapper {
         Student student = Student.builder()
                 .name(studentDto.getName())
                 .surname(studentDto.getSurname())
+                .username(studentDto.getUsername())
                 .points(studentDto.getPoints())
                 .build();
 

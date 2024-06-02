@@ -129,6 +129,21 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
+    public GroupDto getByStudentId(Long id) {
+        Student student = studentRepository.findById(id)
+                .orElseThrow(
+                        () -> new UserNotFoundException("Student with ID " + id + " not found")
+                );
+
+        Group group = groupRepository.findByStudentListContains(student)
+                .orElseThrow(
+                        () -> new GroupNotFoundException("Group not found")
+                );
+
+        return GroupMapper.toGroupDto(group);
+    }
+
+    @Override
     public GroupDto update(long id, GroupDto groupDto) {
 
         Group group = groupRepository.findById(id).orElseThrow(
