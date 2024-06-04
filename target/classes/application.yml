@@ -12,13 +12,14 @@ spring:
 # TODO: Разобраться почему H2 стартует не том порту
   server:
     port: 8080
-
+#    port: 8085
+# TODO: Поменять порт
   # Включение консоли
   h2:
     console:
       #enabled: false
       enabled: true
-      port: 8080
+      port: 8085
 
   jpa:
 
@@ -30,6 +31,7 @@ spring:
       #ddl-auto: none
 #      dialect: org.hibernate.dialect.PostgreSQLDialect
       ddl-auto: create-drop
+#      ddl-auto: update
       hbm2ddl.auto: create
 
     # Показываем запросы

@@ -35,8 +35,13 @@ public class LessonController {
     }
 
     @PutMapping("/attendance/{lesson_id}/{student_id}")
-    public LessonDto markAttended(@PathVariable(name = "lesson_id") Long lessonId, @PathVariable(name = "student_id") Long studentId) {
-        return lessonService.markAttended(lessonId, studentId);
+    public LessonDto markAttendedByLessonId(@PathVariable(name = "lesson_id") Long lessonId, @PathVariable(name = "student_id") Long studentId) {
+        return lessonService.markAttendedByLessonId(lessonId, studentId);
+    }
+
+    @PutMapping("/attendance/qrcode/{qr_code_id}/{student_id}")
+    public LessonDto markAttendedByQRCodeId(@PathVariable(name = "qr_code_id") Long qrCodeId, @PathVariable(name = "student_id") Long studentId) {
+        return lessonService.markAttendedByQRCodeId(qrCodeId, studentId);
     }
 
     @DeleteMapping("/{id}")

@@ -25,4 +25,5 @@ public class LessonDto {
     private String groupName;
 
     private Long groupId;
+    //TODO: передавать айдишник активного QR-кода
 }

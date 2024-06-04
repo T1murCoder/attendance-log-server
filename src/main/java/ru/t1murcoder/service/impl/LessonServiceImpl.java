@@ -3,15 +3,15 @@ package ru.t1murcoder.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.t1murcoder.controller.dto.LessonDto;
+import ru.t1murcoder.controller.dto.QRCodeDto;
 import ru.t1murcoder.domain.*;
-import ru.t1murcoder.exception.GroupNotFoundException;
-import ru.t1murcoder.exception.LessonNotFoundException;
-import ru.t1murcoder.exception.UserNotFoundException;
+import ru.t1murcoder.exception.*;
 import ru.t1murcoder.mapper.GroupMapper;
 import ru.t1murcoder.mapper.LessonMapper;
 import ru.t1murcoder.repository.*;
 import ru.t1murcoder.service.LessonService;
 
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -25,6 +25,7 @@ public class LessonServiceImpl implements LessonService {
     private final TeacherRepository teacherRepository;
     private final AttendanceRepository attendanceRepository;
     private final StudentRepository studentRepository;
+    private final QRCodeRepository qrCodeRepository;
 
     @Override
     public LessonDto add(LessonDto lessonDto) {
@@ -83,7 +84,7 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
-    public LessonDto update(LessonDto lessonDto) {
+    public LessonDto update(Long id, LessonDto lessonDto) {
         // TODO: сделать обновление уроков
         return null;
     }
@@ -103,7 +104,55 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
-    public LessonDto markAttended(Long lessonId, Long studentId) {
+    public LessonDto markAttendedByLessonId(Long lessonId, Long studentId) {
+        Lesson lesson = lessonRepository.findById(lessonId)
+                .orElseThrow(
+                        () -> new LessonNotFoundException("Lesson with ID " + lessonId + " not found")
+                );
+
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(
+                        () -> new UserNotFoundException("Student with ID " + studentId + " not found")
+                );
+
+        Optional<Attendance> attendanceOptional = attendanceRepository.findByLessonIdAndStudentId(lessonId, studentId);
+
+        Attendance attendance;
+
+        if (attendanceOptional.isEmpty()) {
+
+            attendance = Attendance.builder()
+                    .lesson(lesson)
+                    .student(student)
+                    .isVisited(true)
+                    .build();
+        } else {
+            attendance = attendanceOptional.get();
+            attendance.setIsVisited(true);
+        }
+
+        attendanceRepository.save(attendance);
+
+        return LessonMapper.toLessonDto(lesson);
+    }
+
+    @Override
+    public LessonDto markAttendedByQRCodeId(Long qrCodeId, Long studentId) {
+
+        QRCode qrCode = qrCodeRepository.findById(qrCodeId)
+                .orElseThrow(
+                        () -> new QRCodeNotFoundException("QRCode with ID " + qrCodeId + " not found")
+                );
+
+        // TODO: Проверить метод
+        GregorianCalendar currentTime = new GregorianCalendar();
+
+        if (!(currentTime.after(qrCode.getCreatedAt()) && currentTime.before(qrCode.getExpiresAt()))) {
+            throw new QRCodeExpiredException("QRCode with ID " + qrCodeId + " expired");
+        }
+
+        Long lessonId = qrCode.getLesson().getId();
+
         Lesson lesson = lessonRepository.findById(lessonId)
                 .orElseThrow(
                         () -> new LessonNotFoundException("Lesson with ID " + lessonId + " not found")
