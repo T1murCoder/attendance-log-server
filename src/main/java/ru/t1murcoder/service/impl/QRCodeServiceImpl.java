@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.t1murcoder.controller.dto.QRCodeDto;
 import ru.t1murcoder.domain.Lesson;
 import ru.t1murcoder.domain.QRCode;
+import ru.t1murcoder.exception.LessonIsEndedException;
 import ru.t1murcoder.exception.LessonNotFoundException;
 import ru.t1murcoder.exception.QRCodeNotFoundException;
 import ru.t1murcoder.mapper.QRCodeMapper;
@@ -28,10 +29,15 @@ public class QRCodeServiceImpl implements QRCodeService {
     public QRCodeDto add(QRCodeDto qrCodeDto) {
         Lesson lesson = lessonRepository.findById(qrCodeDto.getLessonId())
                 .orElseThrow(
-                        () -> new LessonNotFoundException("Lesson wtih ID " + qrCodeDto.getLessonId() + " not found")
+                        () -> new LessonNotFoundException("Lesson with ID " + qrCodeDto.getLessonId() + " not found")
                 );
 
         GregorianCalendar timeCreate = new GregorianCalendar();
+
+        if (!timeCreate.before(lesson.getTimeEnd())) {
+            throw new LessonIsEndedException("Lesson with ID " + lesson.getId() + " is ended. Can't create QR-code");
+        }
+
         GregorianCalendar timeExpires = new GregorianCalendar();
 
         timeExpires.add(Calendar.SECOND, QRCode.qrCodeLifeTime);
