@@ -36,4 +36,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleQRCodeExpiredException(QRCodeExpiredException e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
     }
+
+    @ExceptionHandler(LessonIsEndedException.class)
+    public ResponseEntity<String> handleLessonEndedException(LessonIsEndedException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+    }
 }
