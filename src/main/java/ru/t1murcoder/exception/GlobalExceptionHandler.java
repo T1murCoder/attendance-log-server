@@ -26,4 +26,14 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleAttendanceNotFoundException(AttendanceNotFoundException e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(QRCodeNotFoundException.class)
+    public ResponseEntity<String> handleQRCodeNotFoundException(QRCodeNotFoundException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(QRCodeExpiredException.class)
+    public ResponseEntity<String> handleQRCodeExpiredException(QRCodeExpiredException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+    }
 }
