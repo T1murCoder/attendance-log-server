@@ -38,6 +38,9 @@ public class Lesson {
     @JoinColumn(name = "group_id")
     private Group group;
 
+    @OneToMany(mappedBy = "lesson", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<QRCode> qrCodeList;
+
     // вероятно придётся перейти на Set
     @OneToMany(mappedBy = "lesson", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Attendance> attendanceList;
