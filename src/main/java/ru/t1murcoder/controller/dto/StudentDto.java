@@ -14,6 +14,5 @@ public class StudentDto {
     private String name;
     private String surname;
     private String username;
-    private Float points;
-    //TODO: сделать посещения
+    private Integer points;
 }

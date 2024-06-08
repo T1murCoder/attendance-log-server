@@ -116,6 +116,7 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
+            <version>42.7.3</version>
         </dependency>
 
         <!-- Зависимость для swagger spring boot 3.0.0+ -->

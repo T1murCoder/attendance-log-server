@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.t1murcoder.controller.dto.GroupDto;
 import ru.t1murcoder.controller.dto.GroupWithoutStudentsDto;
+import ru.t1murcoder.controller.dto.StudentDto;
 import ru.t1murcoder.domain.Group;
 import ru.t1murcoder.domain.Student;
 import ru.t1murcoder.domain.Teacher;
@@ -164,6 +165,49 @@ public class GroupServiceImpl implements GroupService {
         }
 
         group.setStudentList(studentList);
+
+        return GroupMapper.toGroupDto(groupRepository.save(group));
+    }
+
+
+    @Override
+    public void removeStudentFromGroupById(Long groupId, Long studentId) {
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(
+                        () -> new UserNotFoundException("Student with ID " + studentId + " not found")
+                );
+        // TODO: ПРОТЕСТИТЬ
+
+        Group group = groupRepository.findById(groupId)
+                .orElseThrow(
+                        () -> new GroupNotFoundException("Group with ID " + groupId + " not found")
+                );
+
+        List<Student> currStudentList = group.getStudentList();
+        currStudentList.remove(student);
+
+        groupRepository.save(group);
+    }
+
+    @Override
+    public GroupDto addStudentToGroupById(Long groupId, List<StudentDto> studentDtoList) {
+        Group group = groupRepository.findById(groupId)
+                .orElseThrow(
+                        () -> new GroupNotFoundException("Group with ID " + groupId + " not found")
+                );
+        // TODO: ПРОТЕСТИТЬ
+
+        List<Student> currStudentList = group.getStudentList();
+
+        for (StudentDto studentDto : studentDtoList) {
+            Student student = studentRepository.findById(studentDto.getId())
+                    .orElseThrow(
+                            () -> new UserNotFoundException("Student with ID " + studentDto.getId() + " not found")
+                    );
+
+            currStudentList.add(student);
+        }
+        group.setStudentList(currStudentList);
 
         return GroupMapper.toGroupDto(groupRepository.save(group));
     }
