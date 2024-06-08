@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import ru.t1murcoder.controller.dto.GroupDto;
 import ru.t1murcoder.controller.dto.GroupWithoutStudentsDto;
+import ru.t1murcoder.controller.dto.StudentDto;
 import ru.t1murcoder.controller.dto.UserProfileDto;
 import ru.t1murcoder.domain.Group;
 import ru.t1murcoder.domain.Lesson;
@@ -29,6 +30,10 @@ public interface GroupService {
     GroupDto getByStudentId(Long id);
 
     GroupDto update(long id, GroupDto groupDto);
+
+    void removeStudentFromGroupById(Long groupId, Long studentId);
+
+    GroupDto addStudentToGroupById(Long groupId, List<StudentDto> studentDtoList);
 
     void deleteById(long id, String username);
 }
