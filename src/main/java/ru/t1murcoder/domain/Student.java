@@ -37,9 +37,6 @@ public class Student extends User {
     @Column(name = "photo_url")
     private String photoUrl;
 
-    @Column(name = "points")
-    private Float points;
-
     @ManyToOne(targetEntity = Group.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id")
     private Group group;

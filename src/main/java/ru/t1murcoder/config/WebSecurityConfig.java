@@ -32,14 +32,15 @@ public class WebSecurityConfig{
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable)
+                .csrf().disable()
+                .cors().disable()
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/swagger-ui/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/teacher/register")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/teacher/login")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/teacher/username/{username}")).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/teacher/**")).hasAuthority("ROLE_TEACHER")
+                        .requestMatchers(new AntPathRequestMatcher("/teacher/**")).hasAuthority("ROLE_TEACHER") // Разобраться с ролями
                         .requestMatchers(new AntPathRequestMatcher("/student/register")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/student/login")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/student/username/{username}")).permitAll()

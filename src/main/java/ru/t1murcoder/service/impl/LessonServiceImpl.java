@@ -53,7 +53,7 @@ public class LessonServiceImpl implements LessonService {
 
             Attendance attendance = Attendance.builder()
                     .isVisited(false)
-                    .points(0f)
+                    .points(0)
                     .build();
 
             attendance.setStudent(student);

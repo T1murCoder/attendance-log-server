@@ -15,6 +15,6 @@ public class StudentWithAttendancesDto {
     private Long id;
     private String name;
     private String surname;
-    private Float points;
+    private Integer points;
     private List<AttendanceDto> attendanceDtoList;
 }

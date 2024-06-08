@@ -14,7 +14,7 @@ import java.util.GregorianCalendar;
 public class AttendanceDto {
     private Long id;
     private Boolean isVisited;
-    private Float points;
+    private Integer points;
     private Long studentId;
     private Long lessonId;
     private GregorianCalendar lessonTimeStart;

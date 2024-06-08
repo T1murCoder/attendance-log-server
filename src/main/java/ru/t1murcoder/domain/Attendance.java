@@ -21,7 +21,7 @@ public class Attendance {
     private Boolean isVisited;
 
     @Column(name = "points")
-    private Float points;
+    private Integer points;
 
     @JoinColumn(name = "student_id")
     @ManyToOne(targetEntity = Student.class, fetch = FetchType.LAZY)

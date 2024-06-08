@@ -1,25 +1,26 @@
 # Конфигурационный файл
 apiPrefix: "/api"
 
+server:
+    port: 8085
+
 spring:
 
   # Подключение к H2 бд через jdbc
   datasource:
-    url: jdbc:h2:mem:testdb
-    #url: jdbc:postgresql://localhost:5432/attendance-log
-#    username: root
-#    password: root
-# TODO: Разобраться почему H2 стартует не том порту
-  server:
-    port: 8080
-#    port: 8085
-# TODO: Поменять порт
+#    url: jdbc:h2:mem:testdb
+    url: jdbc:postgresql://localhost:5432/attendance-log
+    driverClassName: org.postgresql.Driver
+    username: root
+    password: root
+
   # Включение консоли
   h2:
     console:
       #enabled: false
       enabled: true
-      port: 8085
+      settings:
+        web-allow-others: true
 
   jpa:
 
@@ -27,17 +28,21 @@ spring:
     #generate-ddl: false
     generate-ddl: true
 
+
     hibernate:
-      #ddl-auto: none
-#      dialect: org.hibernate.dialect.PostgreSQLDialect
-      ddl-auto: create-drop
-#      ddl-auto: update
-      hbm2ddl.auto: create
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+#      ddl-auto: none
+#      ddl-auto: create
+      ddl-auto: update
 
     # Показываем запросы
     show-sql: true
 
     defer-datasource-initialization: true
+
+  sql:
+    init:
+      mode: always
 
 springdoc:
   swagger-ui:
