@@ -21,12 +21,9 @@ public interface GroupService {
 
     GroupDto getById(long id);
 
-    GroupDto getByName(String name);
-
     List<GroupDto> getByTeacherUsername(String username);
     List<GroupWithoutStudentsDto> getByTeacherUsernameWithoutStudents(String username);
 
-    GroupDto getByStudentUsername(String username);
     GroupDto getByStudentId(Long id);
 
     GroupDto update(long id, GroupDto groupDto);

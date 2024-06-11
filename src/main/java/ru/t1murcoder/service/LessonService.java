@@ -11,8 +11,6 @@ public interface LessonService {
 
     LessonDto getById(long id);
 
-    LessonDto update(Long id, LessonDto lessonDto);
-
     List<LessonDto> getByTeacherUsername(String username);
 
     LessonDto markAttendedByLessonId(Long lessonId, Long studentId);

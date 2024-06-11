@@ -6,16 +6,11 @@ import org.springframework.stereotype.Service;
 import ru.t1murcoder.controller.dto.GroupDto;
 import ru.t1murcoder.controller.dto.GroupWithoutStudentsDto;
 import ru.t1murcoder.controller.dto.StudentDto;
-import ru.t1murcoder.domain.Group;
-import ru.t1murcoder.domain.Student;
-import ru.t1murcoder.domain.Teacher;
+import ru.t1murcoder.domain.*;
 import ru.t1murcoder.exception.GroupNotFoundException;
 import ru.t1murcoder.exception.UserNotFoundException;
 import ru.t1murcoder.mapper.GroupMapper;
-import ru.t1murcoder.repository.GroupRepository;
-import ru.t1murcoder.repository.LessonRepository;
-import ru.t1murcoder.repository.StudentRepository;
-import ru.t1murcoder.repository.TeacherRepository;
+import ru.t1murcoder.repository.*;
 import ru.t1murcoder.service.GroupService;
 
 import java.util.ArrayList;
@@ -31,6 +26,7 @@ public class GroupServiceImpl implements GroupService {
     private final TeacherRepository teacherRepository;
     private final StudentRepository studentRepository;
     private final LessonRepository lessonRepository;
+    private final AttendanceRepository attendanceRepository;
 
     @Override
     @Transactional
@@ -88,12 +84,6 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public GroupDto getByName(String name) {
-        // TODO: Сделать поиск по имени группы
-        return null;
-    }
-
-    @Override
     public List<GroupDto> getByTeacherUsername(String username) {
         Optional<Teacher> teacher = teacherRepository.findByUsername(username);
 
@@ -121,12 +111,6 @@ public class GroupServiceImpl implements GroupService {
                 .stream()
                 .map(GroupMapper::toGroupWithoutStudentsDto)
                 .collect(Collectors.toList());
-    }
-
-    @Override
-    public GroupDto getByStudentUsername(String username) {
-        // TODO: Сделать поиск группы по имени студента
-        return null;
     }
 
     @Override
@@ -171,45 +155,63 @@ public class GroupServiceImpl implements GroupService {
 
 
     @Override
+    @Transactional
     public void removeStudentFromGroupById(Long groupId, Long studentId) {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(
                         () -> new UserNotFoundException("Student with ID " + studentId + " not found")
                 );
-        // TODO: ПРОТЕСТИТЬ
 
         Group group = groupRepository.findById(groupId)
                 .orElseThrow(
                         () -> new GroupNotFoundException("Group with ID " + groupId + " not found")
                 );
 
-        List<Student> currStudentList = group.getStudentList();
-        currStudentList.remove(student);
+        student.setGroup(null);
 
-        groupRepository.save(group);
+        for (Attendance attendance : student.getAttendanceList()) {
+            attendanceRepository.delete(attendance);
+        }
+
+        studentRepository.save(student);
     }
 
     @Override
+    @Transactional
     public GroupDto addStudentToGroupById(Long groupId, List<StudentDto> studentDtoList) {
         Group group = groupRepository.findById(groupId)
                 .orElseThrow(
                         () -> new GroupNotFoundException("Group with ID " + groupId + " not found")
                 );
-        // TODO: ПРОТЕСТИТЬ
 
-        List<Student> currStudentList = group.getStudentList();
+        List<Lesson> lessonList = group.getLessonList();
 
         for (StudentDto studentDto : studentDtoList) {
             Student student = studentRepository.findById(studentDto.getId())
                     .orElseThrow(
                             () -> new UserNotFoundException("Student with ID " + studentDto.getId() + " not found")
                     );
+            student.setGroup(group);
+            studentRepository.save(student);
 
-            currStudentList.add(student);
+            for (Lesson lesson : lessonList) {
+                Attendance attendance = Attendance.builder()
+                        .lesson(lesson)
+                        .student(student)
+                        .isVisited(false)
+                        .points(0)
+                        .build();
+                attendanceRepository.save(attendance);
+            }
+
         }
-        group.setStudentList(currStudentList);
 
-        return GroupMapper.toGroupDto(groupRepository.save(group));
+        Group updated = groupRepository.findById(groupId)
+                .orElseThrow(
+                        () -> new GroupNotFoundException("Group with ID " + groupId + " not found")
+                );;
+
+        return GroupMapper.toGroupDto(updated);
     }
 
     @Override
@@ -224,16 +226,9 @@ public class GroupServiceImpl implements GroupService {
         if (!group.getTeacher().getUsername().equals(teacher.getUsername()))
             throw new RuntimeException("Only the owner can delete the group");
 
-//        for (Lesson lessonDb : group.getLessonList()) {
-//
-//            Lesson lesson = lessonRepository.findById(lessonDb.getId()).orElseThrow(
-//                    () -> new LessonNotFoundException("Lesson with ID " + lessonDb.getId() + " not found")
-//            );
-//
-//            lessonRepository.delete(lesson);
-//        }
         groupRepository.deleteStudentRelationByGroupId(id);
         groupRepository.deleteAttendancesByGroupId(id);
+        groupRepository.deleteQRCodesByGroupId(id);
         groupRepository.deleteLessonsByGroupId(id);
         groupRepository.deleteById(id);
     }

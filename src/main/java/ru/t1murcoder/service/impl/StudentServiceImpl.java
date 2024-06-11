@@ -30,7 +30,6 @@ public class StudentServiceImpl implements StudentService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    //TODO: Продумать случай, когда ученик присоединяется позже к группе и у него нет всех уроков, которые были до этого момента
 
     @Override
     public UserProfileDto add(UserRegisterDto userRegisterDto) {
