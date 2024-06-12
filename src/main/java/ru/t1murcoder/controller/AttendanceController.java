@@ -14,10 +14,6 @@ import java.util.List;
 @RequestMapping("/attendance/")
 public class AttendanceController {
 
-    //TODO: Расписать эндпоинты и отправить Артёму
-    //TODO: Сделать получение по айди урока и айди студента
-    //TODO: Подумать над предоставлением данных для таблицы
-
     private final AttendanceService attendanceService;
 
     @PostMapping()

@@ -84,12 +84,6 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
-    public LessonDto update(Long id, LessonDto lessonDto) {
-        // TODO: сделать обновление уроков
-        return null;
-    }
-
-    @Override
     public List<LessonDto> getByTeacherUsername(String username) {
         Teacher teacher = teacherRepository.findByUsername(username)
                 .orElseThrow(
