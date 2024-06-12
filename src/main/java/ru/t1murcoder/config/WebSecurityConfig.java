@@ -44,11 +44,11 @@ public class WebSecurityConfig{
                         .requestMatchers(new AntPathRequestMatcher("/teacher/register")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/teacher/login")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/teacher/username/{username}")).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/teacher/**")).hasAuthority("ROLE_TEACHER") // Разобраться с ролями
 //                        .requestMatchers(new AntPathRequestMatcher("/teacher/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/student/register")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/student/login")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/student/username/{username}")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/teacher/**")).hasAuthority("ROLE_TEACHER")
                         .requestMatchers(new AntPathRequestMatcher("/student/**")).hasAnyAuthority("ROLE_STUDENT", "ROLE_TEACHER")
                         .requestMatchers(new AntPathRequestMatcher("/group/**")).hasAnyAuthority("ROLE_STUDENT", "ROLE_TEACHER")
                         .requestMatchers(new AntPathRequestMatcher("/lesson/**")).hasAnyAuthority("ROLE_STUDENT", "ROLE_TEACHER")

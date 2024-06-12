@@ -44,11 +44,11 @@ spring:
     init:
       mode: always
 
-logging:
-  level:
-    org:
-      springframework:
-        web: DEBUG
+#logging:
+#  level:
+#    org:
+#      springframework:
+#        web: DEBUG
 
 springdoc:
   swagger-ui:
