@@ -38,8 +38,8 @@ public class GroupServiceImpl implements GroupService {
         if (groupDto.getName() == null)
             throw new RuntimeException("Group must have name");
 
-        if (groupRepository.findByName(groupDto.getName()).isPresent())
-            throw new RuntimeException("Group already exists");
+//        if (groupRepository.findByName(groupDto.getName()).isPresent()) // Временно отключено, нужно переделать
+//            throw new RuntimeException("Group already exists");
 
         Group group = groupRepository.save(GroupMapper.toGroupEntity(groupDto));
 
