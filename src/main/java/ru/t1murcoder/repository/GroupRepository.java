@@ -30,4 +30,8 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
     @Modifying
     @Query("DELETE FROM Lesson l WHERE l.group.id = :id")
     void deleteLessonsByGroupId(long id);
+
+    @Modifying
+    @Query("DELETE FROM QRCode q WHERE q.lesson.group.id = :id")
+    void deleteQRCodesByGroupId(long id);
 }

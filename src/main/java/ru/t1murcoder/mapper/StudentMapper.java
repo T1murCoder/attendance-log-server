@@ -27,8 +27,8 @@ public class StudentMapper {
                             .mapToInt(Attendance::getPoints)
                             .sum()
             );
-
         }
+
 
         return studentDto;
     }
