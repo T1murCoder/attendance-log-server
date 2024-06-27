@@ -29,5 +29,5 @@ public class QRCode {
     @JoinColumn(name = "lesson_id")
     private Lesson lesson;
 
-    public static int qrCodeLifeTime = 30;
+    public static int qrCodeLifeTime = 60 * 3;
 }
