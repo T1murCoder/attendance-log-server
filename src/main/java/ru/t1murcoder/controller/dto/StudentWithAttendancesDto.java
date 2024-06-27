@@ -17,5 +17,4 @@ public class StudentWithAttendancesDto {
     private String surname;
     private Integer points;
     private List<AttendanceDto> attendanceDtoList;
-    private String photoUrl;
 }
