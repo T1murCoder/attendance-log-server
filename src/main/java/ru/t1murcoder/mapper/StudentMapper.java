@@ -39,7 +39,6 @@ public class StudentMapper {
                 .id(student.getId())
                 .name(student.getName())
                 .surname(student.getSurname())
-                .photoUrl(student.getPhotoUrl())
                 .build();
 
         if (student.getAttendanceList() != null) {
@@ -76,7 +75,6 @@ public class StudentMapper {
         Student student = Student.builder()
                 .name(studentDto.getName())
                 .surname(studentDto.getSurname())
-                .photoUrl(studentDto.getPhotoUrl())
                 .build();
 
         if (studentDto.getId() != null) student.setId(studentDto.getId());
